@@ -23,7 +23,7 @@
 
             <div class='message' ng-include="'<?= asset('js/app/templates/message.html') ?>'"></div>
 
-            <div ng-view class='ssk-container' id='view'></div>    
+            <div ng-view class='my-container' id='view'></div>    
         </div>
         <script data-main="<?= asset('js/main.js') ?>" src="<?= asset('js/bower_components/requirejs/require.js') ?>"></script>
     </body>
