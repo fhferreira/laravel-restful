@@ -98,6 +98,11 @@ class ApiUsersController extends BaseApiController {
         $userMeta->user_id = $user->id;
         $userMeta->first_name = $request['meta']['first_name'] ? $request['meta']['first_name'] : "";
         $userMeta->last_name = $request['meta']['last_name'] ? $request['meta']['last_name'] : "";
+        $userMeta->address1 = $request['meta']['address1'] ? $request['meta']['address1'] : "";
+        $userMeta->address2 = $request['meta']['address2'] ? $request['meta']['address2'] : "";
+        $userMeta->city = $request['meta']['city'] ? $request['meta']['city'] : "";
+        $userMeta->postal = $request['meta']['postal'] ? $request['meta']['postal'] : "";
+        $userMeta->fax = $request['meta']['fax'] ? $request['meta']['fax'] : "";
         $userMeta->phone = $request['meta']['phone'] ? $request['meta']['phone'] : "";
         $userMeta->save();
 
@@ -155,6 +160,11 @@ class ApiUsersController extends BaseApiController {
         $userMeta->user_id = $user->id;
         $userMeta->first_name = $request['meta']['first_name'] ? $request['meta']['first_name'] : "";
         $userMeta->last_name = $request['meta']['last_name'] ? $request['meta']['last_name'] : "";
+        $userMeta->address1 = $request['meta']['address1'] ? $request['meta']['address1'] : "";
+        $userMeta->address2 = $request['meta']['address2'] ? $request['meta']['address2'] : "";
+        $userMeta->city = $request['meta']['city'] ? $request['meta']['city'] : "";
+        $userMeta->postal = $request['meta']['postal'] ? $request['meta']['postal'] : "";
+        $userMeta->fax = $request['meta']['fax'] ? $request['meta']['fax'] : "";
         $userMeta->phone = $request['meta']['phone'] ? $request['meta']['phone'] : "";
         $userMeta->save();
 
