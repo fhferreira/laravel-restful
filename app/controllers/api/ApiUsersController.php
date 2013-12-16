@@ -12,7 +12,7 @@ class ApiUsersController extends BaseApiController {
     {
         $limit = Input::get('limit') ? (int)Input::get('limit') : Config::get('restful.defaults.pagination.limit');
         
-        $users = User::paginate($limit);
+        $users = User::with('meta', 'group')->paginate($limit);
 
         if ($users) {
             $resp = RestResponseProvider::ok($users->toArray());
@@ -27,7 +27,7 @@ class ApiUsersController extends BaseApiController {
      **/
     public function getById($id)
     {
-        $user = User::find($id);
+        $user = User::with('meta', 'group')->find($id);
 
         if ($user) {
             $resp = RestResponseProvider::ok($user->toArray());
@@ -47,7 +47,7 @@ class ApiUsersController extends BaseApiController {
             $authToken = App::make('authToken');
             $user = $authToken->user;
         } else {
-            $user = User::where('username', $username)->first();
+            $user = User::where('username', $username)->with('meta', 'group')->first();
         }
 
         if ($user) {
@@ -96,14 +96,14 @@ class ApiUsersController extends BaseApiController {
 
         $userMeta = new UserMeta();
         $userMeta->user_id = $user->id;
-        $userMeta->first_name = $request['meta']['first_name'] ? $request['meta']['first_name'] : "";
-        $userMeta->last_name = $request['meta']['last_name'] ? $request['meta']['last_name'] : "";
-        $userMeta->address1 = $request['meta']['address1'] ? $request['meta']['address1'] : "";
-        $userMeta->address2 = $request['meta']['address2'] ? $request['meta']['address2'] : "";
-        $userMeta->city = $request['meta']['city'] ? $request['meta']['city'] : "";
-        $userMeta->postal = $request['meta']['postal'] ? $request['meta']['postal'] : "";
-        $userMeta->fax = $request['meta']['fax'] ? $request['meta']['fax'] : "";
-        $userMeta->phone = $request['meta']['phone'] ? $request['meta']['phone'] : "";
+        $userMeta->first_name = isset($request['meta']['first_name']) ? $request['meta']['first_name'] : "";
+        $userMeta->last_name = isset($request['meta']['last_name']) ? $request['meta']['last_name'] : "";
+        $userMeta->address1 = isset($request['meta']['address1']) ? $request['meta']['address1'] : "";
+        $userMeta->address2 = isset($request['meta']['address2']) ? $request['meta']['address2'] : "";
+        $userMeta->city = isset($request['meta']['city']) ? $request['meta']['city'] : "";
+        $userMeta->postal = isset($request['meta']['postal']) ? $request['meta']['postal'] : "";
+        $userMeta->fax = isset($request['meta']['fax']) ? $request['meta']['fax'] : "";
+        $userMeta->phone = isset($request['meta']['phone']) ? $request['meta']['phone'] : "";
         $userMeta->save();
 
         $resp = RestResponseProvider::ok($user->toArray());
@@ -139,7 +139,7 @@ class ApiUsersController extends BaseApiController {
             $authToken = App::make('authToken');
             $user = $authToken->user;
         } else {
-            $user = User::find($id);
+            $user = User::with('meta', 'group')->find($id);
         }
 
         if (!$user) {
@@ -158,14 +158,14 @@ class ApiUsersController extends BaseApiController {
 
         $userMeta = $user->meta;
         $userMeta->user_id = $user->id;
-        $userMeta->first_name = $request['meta']['first_name'] ? $request['meta']['first_name'] : "";
-        $userMeta->last_name = $request['meta']['last_name'] ? $request['meta']['last_name'] : "";
-        $userMeta->address1 = $request['meta']['address1'] ? $request['meta']['address1'] : "";
-        $userMeta->address2 = $request['meta']['address2'] ? $request['meta']['address2'] : "";
-        $userMeta->city = $request['meta']['city'] ? $request['meta']['city'] : "";
-        $userMeta->postal = $request['meta']['postal'] ? $request['meta']['postal'] : "";
-        $userMeta->fax = $request['meta']['fax'] ? $request['meta']['fax'] : "";
-        $userMeta->phone = $request['meta']['phone'] ? $request['meta']['phone'] : "";
+        $userMeta->first_name = isset($request['meta']['first_name']) ? $request['meta']['first_name'] : "";
+        $userMeta->last_name = isset($request['meta']['last_name']) ? $request['meta']['last_name'] : "";
+        $userMeta->address1 = isset($request['meta']['address1']) ? $request['meta']['address1'] : "";
+        $userMeta->address2 = isset($request['meta']['address2']) ? $request['meta']['address2'] : "";
+        $userMeta->city = isset($request['meta']['city']) ? $request['meta']['city'] : "";
+        $userMeta->postal = isset($request['meta']['postal']) ? $request['meta']['postal'] : "";
+        $userMeta->fax = isset($request['meta']['fax']) ? $request['meta']['fax'] : "";
+        $userMeta->phone = isset($request['meta']['phone']) ? $request['meta']['phone'] : "";
         $userMeta->save();
 
         $resp = RestResponseProvider::ok($user->toArray());
@@ -180,7 +180,7 @@ class ApiUsersController extends BaseApiController {
         $requestBody = file_get_contents('php://input');
         $request = json_decode($requestBody);
         
-        $user = User::find($id);
+        $user = User::with('meta', 'group')->find($id);
 
         if ($user) {
             $user->delete();
@@ -199,7 +199,7 @@ class ApiUsersController extends BaseApiController {
             $authToken = App::make('authToken');
             $user = $authToken->user;
         } else {
-            $user = User::find($id);
+            $user = User::with('meta', 'group')->find($id);
         }
         
         if ($user) {

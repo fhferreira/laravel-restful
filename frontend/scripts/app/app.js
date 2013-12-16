@@ -15,6 +15,7 @@ define([
     'modules/login/login',
     'modules/dashboard/dashboard',
     'modules/sites/sites',
+    'modules/users/users',
     'modules/settings/settings',
     'modules/profile/profile',
     'services/security/security'
@@ -33,6 +34,7 @@ define([
     login,
     dashboard,
     sites,
+    users,
     settings,
     profile,
 
@@ -46,7 +48,7 @@ define([
      */
     
     // defining app module
-    var app = angular.module('app', ['ngCookies', 'ngRoute', 'ngResource', 'ngAnimate', 'ui.bootstrap', login.name, dashboard.name, sites.name, settings.name, profile.name, security.name]);
+    var app = angular.module('app', ['ngCookies', 'ngRoute', 'ngResource', 'ngAnimate', 'ui.bootstrap', login.name, dashboard.name, sites.name, users.name, settings.name, profile.name, security.name]);
 
     app.controller('AppCtrl', AppCtrl);
     app.controller('HeaderCtrl', HeaderCtrl);

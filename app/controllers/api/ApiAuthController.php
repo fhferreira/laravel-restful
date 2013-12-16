@@ -68,14 +68,14 @@ class ApiAuthController extends BaseApiController {
 
         $userMeta = new UserMeta();
         $userMeta->user_id = $user->id;
-        $userMeta->first_name = $request['meta']['first_name'] ? $request['meta']['first_name'] : "";
-        $userMeta->last_name = $request['meta']['last_name'] ? $request['meta']['last_name'] : "";
-        $userMeta->address1 = $request['meta']['address1'] ? $request['meta']['address1'] : "";
-        $userMeta->address2 = $request['meta']['address2'] ? $request['meta']['address2'] : "";
-        $userMeta->city = $request['meta']['city'] ? $request['meta']['city'] : "";
-        $userMeta->postal = $request['meta']['postal'] ? $request['meta']['postal'] : "";
-        $userMeta->fax = $request['meta']['fax'] ? $request['meta']['fax'] : "";
-        $userMeta->phone = $request['meta']['phone'] ? $request['meta']['phone'] : "";
+        $userMeta->first_name = isset($request['meta']['first_name']) ? $request['meta']['first_name'] : "";
+        $userMeta->last_name = isset($request['meta']['last_name']) ? $request['meta']['last_name'] : "";
+        $userMeta->address1 = isset($request['meta']['address1']) ? $request['meta']['address1'] : "";
+        $userMeta->address2 = isset($request['meta']['address2']) ? $request['meta']['address2'] : "";
+        $userMeta->city = isset($request['meta']['city']) ? $request['meta']['city'] : "";
+        $userMeta->postal = isset($request['meta']['postal']) ? $request['meta']['postal'] : "";
+        $userMeta->fax = isset($request['meta']['fax']) ? $request['meta']['fax'] : "";
+        $userMeta->phone = isset($request['meta']['phone']) ? $request['meta']['phone'] : "";
         $userMeta->save();
 
         $resp = RestResponseProvider::ok($user->toArray());

@@ -7,7 +7,7 @@
 <div class='row'>
     <div class='col-sm-12'>
         <div class='pull-right'>
-            <a href='#/sites/new' class='btn btn-default'>Create New Site</a>
+            <a href='#/users/new' class='btn btn-default'>Create New User</a>
         </div>
     </div>
 </div>
@@ -27,21 +27,21 @@
                 </thead>
 
                 <tbody>
-                    <tr ng-repeat="site in sites" ng-click="edit(site.id)">
+                    <tr ng-repeat="user in users" ng-click="edit(user.id)">
                         <td>
-                            {{ site.name }}
+                            {{ user.username }}
                         </td>
                         <td>
-                            {{ site.category }}
+                            {{ user.email }}
                         </td>
                         <td>
-                            {{ site.official_only }}
+                            {{ user.meta.first_name + ' ' + user.meta.last_name }}
                         </td>
                         <td>
-                            {{ site.tags.join(", ") }}
+                            {{ user.group.name }}
                         </td>
                         <td>
-                            {{ site.theme }}
+                            {{ user.status }}
                         </td>
                     </tr>
                 </tbody>
