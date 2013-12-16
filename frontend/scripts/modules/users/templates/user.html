@@ -1,0 +1,121 @@
+<div class='row'>
+    <ol class="breadcrumb">
+        <li><a href="#/sites">Sites</a></li>
+        <li class='active'>{{ site.id ? site.name : "New" }}</li>
+    </ol>
+</div>
+
+<div class='row page-header'>
+    <div class='col-sm-12'>
+        <h2>{{ site.id ? site.name : "New" }}</h2>
+    </div>
+</div>
+
+<div class='row'>
+    <form name='form' class='form-horizontal col-sm-12' ng-submit='save()' novalidate>
+        <div class="row form-group" ng-show='site.id'>
+            <label class="col-sm-2 control-label">ID</label>
+            <div class="col-sm-10">
+                <p class="form-control-static">{{ site.id }}</p>
+            </div>
+        </div>
+        <div class="row form-group" ng-class='{"has-error": form.$dirty && form.name.$invalid}'>
+            <label for="name" class="col-sm-2 control-label">Name</label>
+            <div class="col-sm-10">
+                <input type="text" name='name' id='name' class="form-control" ng-model='site.name' placeholder="http://www.socialseek.com/{your-site-name}" required>
+            </div>
+        </div>
+        <div class="row form-group" ng-class='{"has-error": form.$dirty && form.search_terms.$invalid}'>
+            <label for="search_terms" class="col-sm-2 control-label">Search Terms</label>
+            <div class="col-sm-10">
+                <input type="text" name='search_terms' id='search_terms' class="form-control" ng-model='search_terms' placeholder="A word or phrase to search. E.g: Toronto Raptors" required>
+            </div>
+        </div>
+        <div class="row form-group">
+            <label for="logo_url" class="col-sm-2 control-label">Logo URL</label>
+            <div class="col-sm-10">
+                <input type="url" name='logo_url' id='logo_url' class="form-control" ng-model='site.logo_url' placeholder="http://www.example.com/logo.png">
+            </div>
+        </div>
+        <div class="row form-group">
+            <label for="category" class="col-sm-2 control-label">Category</label>
+            <div class="col-sm-10">
+                <select type="text" name='category' id='category' class="form-control" ng-model='site.category' ng-options="obj.key as obj.label for obj in categories"></select>
+            </div>
+        </div>
+        <div class="row form-group">
+            <label for="theme" class="col-sm-2 control-label">Theme</label>
+            <div class="col-sm-10">
+                <select type="text" name='theme' id='theme' class="form-control" ng-model='site.theme' ng-options="obj.key as obj.label for obj in themes"></select>
+            </div>
+        </div>
+        <div class="row form-group">
+            <label for="tags" class="col-sm-2 control-label">Tags</label>
+            <div class="col-sm-10">
+                <input type="text" name='tags' id='tags' class="form-control" ng-model='tags' placeholder="toronto,raptors">
+            </div>
+        </div>
+        <div class="row form-group">
+            <label for="blacklisted_keywords" class="col-sm-2 control-label">Blacklisted Keywords</label>
+            <div class="col-sm-10">
+                <input type="text" name='blacklisted_keywords' id='blacklisted_keywords' class="form-control" ng-model='blacklisted_keywords' placeholder="drugs,alcohol">
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name='official_only' id='official_only' ng-model='site.official_only' ng-checked="site.official_only"> Official Only
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name='has_profanity_filter' id='has_profanity_filter' ng-model='has_profanity_filter' ng-checked="has_profanity_filter"> Filter out profanities (Using a predefined list)
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class='row form-group'>
+            <label class='col-sm-2 control-label'>
+                Official Streams
+            </label>
+            <div class='col-sm-10'>
+                <div>
+                    <a class='btn btn-default' ng-click='editSubscription()'>Add Official Stream</a>
+                </div>
+                <div class='table-responsive' ng-show='hasOfficialSubscription()'>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Account Info</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr ng-show='subscription.is_official' ng-repeat="subscription in site.subscriptions" ng-click="editSubscription($index)">
+                                <td>{{ subscription.type }}</td>
+                                <td>{{ subscription.search_terms }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <a href='/site/?id={{ site.id }}' target='_blank' ng-show='site.id' class="btn btn-default">Preview</a>
+                <button type="submit" class="btn btn-primary">Save</button>
+                <div class='pull-right'>
+                    <a ng-show='site.id' class='btn btn-danger' ng-click='delete(site)'>Delete</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,6 +1,8 @@
 Cannmart Admin
 ==============
 
+# Backend Application #
+
 Make sure to install:
 - PHP mcrypt extension : http://www.coolestguidesontheplanet.com/how-to-install-mcrypt-for-php-on-mac-osx-lion-10-7-development-server/
 
@@ -35,3 +37,53 @@ $ cp database.php.example database.php
 $ php artisan migrate
 - run seeds
 $ php artisan db:seed
+
+# Javascript Single Page Application #
+
+A javascript single page application (SPA).
+
+## Stack ##
+- NodeJS for development platform  
+- GruntJS for tooling  
+- JSHint for code quality  
+- LESS for CSS preprocessor and framework  
+- Bower for package management  
+    - JQuery for DOM helper  
+    - UnderscoreJS for utility helper  
+    - AngularJS for MVW framework 
+    - RequireJS for module loader  
+
+## Setting Up ##
+- Install NodeJS and NPM - (http://www.nodejs.org)  
+- Install LESS  
+``  
+    $ npm install -g less  
+``  
+- Install Bower  
+``
+    $ npm install -g bower
+``  
+- Install grunt-cli  
+``
+    $ npm install -g grunt-cli
+    $ npm install -g grunt-init
+``  
+- Install Node modules dependencies from package.json 
+``
+    $ npm install
+``  
+- Install components dependencies from components.json 
+``
+    $ bower install
+``  
+
+## Run application ##
+``
+    $ grunt run 
+``  
+
+
+
+
+
+

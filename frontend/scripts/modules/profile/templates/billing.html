@@ -1,0 +1,120 @@
+<div class='row'>
+    <ol class="breadcrumb">
+        <li><a href="#/profile">Profile</a></li>
+        <li class='active'>Billing</li>
+    </ol>
+</div>
+
+<div class='row'>
+    <div class='col-sm-3'>
+        <ul class="nav nav-pills nav-stacked">
+            <li><a href="#/profile">Profile</a></li>
+            <li class="active"><a href="#/profile/billing">Billing</a></li>
+            <li><a href="#/profile/thirdparty">Third Party</a></li>
+        </ul>
+    </div>
+
+    <div class='col-sm-9'>
+        <div class='row page-header'>
+            <div class='col-sm-12'>
+                <h2>Billing</h2>
+            </div>
+        </div>
+        
+        <div class='row'>
+            <form name='form' class='form-horizontal col-sm-12' ng-submit='save()' novalidate>
+                <fieldset>
+                    <legend>Credit Card Information</legend>
+                    <div class="row form-group" ng-class='{"has-error": form.$dirty && form.credit_card_name.$invalid}'>
+                        <label for="credit_card_name" class="col-sm-2 control-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" name='credit_card_name' id='credit_card_name' class="form-control" ng-model='user.billing.credit_card_name' placeholder="" required>
+                        </div>
+                    </div>
+                    <div class="row form-group" ng-class='{"has-error": form.$dirty && form.credit_card_num.$invalid}'>
+                        <label for="credit_card_num" class="col-sm-2 control-label">Number</label>
+                        <div class="col-sm-10">
+                            <input type="text" name='credit_card_num' id='credit_card_num' class="form-control" ng-model='user.billing.credit_card_num' placeholder="" required>
+                        </div>
+                    </div>
+                    <div class='row'>
+                        <div class='col-sm-6'>
+                            <div class="row form-group">
+                                <label for="credit_card_expiry" class="col-sm-4 control-label">Expiry</label>
+                                <div class="col-sm-4">
+                                    <select name='credit_card_expiry_month' id='credit_card_expiry_month' class="form-control" ng-model='user.billing.credit_card_expiry_month' ng-options="obj.key as obj.label for obj in months" required>
+                                    </select>
+                                </div>
+                                <div class="col-sm-4">
+                                    <select name='credit_card_expiry_year' id='credit_card_expiry_year' class="form-control" ng-model='user.billing.credit_card_expiry_year' ng-options="obj.key as obj.label for obj in years" required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='col-sm-6'>
+                            <div class="row form-group" ng-class='{"has-error": form.$dirty && form.credit_card_ccv.$invalid}'>
+                                <label for="credit_card_ccv" class="col-sm-4 control-label">CCV</label>
+                                <div class="col-sm-4">
+                                    <input type="text" name='credit_card_ccv' id='credit_card_ccv' class="form-control" ng-model='user.billing.credit_card_ccv' placeholder="" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>Billing Address</legend>
+                    <div class="row form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <div class="checkbox">
+                                <label for='same_as_profile'>
+                                    <input type="checkbox" name='same_as_profile' id='same_as_profile' ng-model='user.billing.same_as_profile' ng-checked="user.billing.same_as_profile"> Same as contact address
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label for="address" class="col-sm-2 control-label">Address</label>
+                        <div class="col-sm-10">
+                            <input ng-disabled="user.billing.same_as_profile" type="text" name='address' id='address' class="form-control" ng-model='user.billing.address' placeholder="">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label for="city" class="col-sm-2 control-label">City</label>
+                        <div class="col-sm-10">
+                            <input ng-disabled="user.billing.same_as_profile" type="text" name='city' id='city' class="form-control" ng-model='user.billing.city' placeholder="">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label for="province" class="col-sm-2 control-label">Province</label>
+                        <div class="col-sm-10">
+                            <input ng-disabled="user.billing.same_as_profile" type="text" name='province' id='province' class="form-control" ng-model='user.billing.province' placeholder="">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label for="postal" class="col-sm-2 control-label">Postal</label>
+                        <div class="col-sm-10">
+                            <input ng-disabled="user.billing.same_as_profile" type="text" name='postal' id='postal' class="form-control" ng-model='user.billing.postal' placeholder="">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label for="country" class="col-sm-2 control-label">Country</label>
+                        <div class="col-sm-10">
+                            <input ng-disabled="user.billing.same_as_profile" type="text" name='country' id='country' class="form-control" ng-model='user.billing.country' placeholder="">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <div class="row form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <a href='/site/?id={{ site.id }}' target='_blank' ng-show='site.id' class="btn btn-default">Preview</a>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <div class='pull-right'>
+                            <a ng-show='site.id' class='btn btn-danger' ng-click='delete(site)'>Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

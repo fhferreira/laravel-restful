@@ -2,3 +2,8 @@ composer.phar
 composer.lock
 .DS_Store
 Thumbs.db
+public/js/
+public/css/
+public/templates/
+bower_components/
+node_modules/

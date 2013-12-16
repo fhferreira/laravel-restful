@@ -1,0 +1,47 @@
+<div class='row'>
+    <ol class="breadcrumb">
+        <li><a href="#/profile">Profile</a></li>
+        <li class='active'>Third Party</li>
+    </ol>
+</div>
+
+<div class='row'>
+    <div class='col-sm-3'>
+        <ul class="nav nav-pills nav-stacked">
+            <li><a href="#/profile">Profile</a></li>
+            <li><a href="#/profile/billing">Billing</a></li>
+            <li class="active"><a href="#/profile/thirdparty">Third Party</a></li>
+        </ul>
+    </div>
+
+    <div class='col-sm-9'>
+        <div class='row page-header'>
+            <div class='col-sm-12'>
+                <h2>Third Party</h2>
+            </div>
+        </div>
+
+        <div class='row'>
+            <form name='form' class='form-horizontal col-sm-12' novalidate>
+                <div class="row form-group">
+                    <label for="" class="col-sm-2 control-label">Twitter</label>
+                    <div class="col-sm-10">
+                        <a class='btn btn-default' ng-class='{"btn-default": !user.twitter_oauth_token, "btn-danger": user.twitter_oauth_token}' ng-click='twitter()'>{{ user.twitter_oauth_token ? "Disconnect" : "Connect" }} Account</a>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="" class="col-sm-2 control-label">Facebook</label>
+                    <div class="col-sm-10">
+                        <a class='btn btn-default' ng-class='{"btn-default": !user.facebook_oauth_token, "btn-danger": user.facebook_oauth_token}' ng-click='facebook()'>{{ user.facebook_oauth_token ? "Disconnect" : "Connect" }} Account</a>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="" class="col-sm-2 control-label">Instagram</label>
+                    <div class="col-sm-10">
+                        <a class='btn btn-default' ng-class='{"btn-default": !user.instagram_oauth_token, "btn-danger": user.instagram_oauth_token}' ng-click='instagram()'>{{ user.instagram_oauth_token ? "Disconnect" : "Connect" }} Account</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

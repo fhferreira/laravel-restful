@@ -13,7 +13,8 @@
 
 Route::get('/', function()
 {
-	return View::make('hello');
+    $data = array();
+    return View::make('home.base')->nest('content', 'home.index', $data);
 });
 
 Route::group(array('prefix' => 'api/users'), function () {

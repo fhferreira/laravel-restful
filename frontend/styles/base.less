@@ -1,0 +1,38 @@
+@import "animations";
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+      display: none !important;
+}
+
+body {
+    padding-top: 50px;
+}
+
+.ssk-container {
+    padding: 0 15px;
+}
+
+.modal {
+    display: block;
+}
+
+.page-header {
+    margin-top: 0px;
+}
+
+.message {
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    right: 0;
+}
+
+#view {
+    .ng-animate-fade-in();
+}
+
+#messages > div {
+    margin: 5px;
+    .ng-animate-fade-in();
+    .ng-animate-fade-out();
+}

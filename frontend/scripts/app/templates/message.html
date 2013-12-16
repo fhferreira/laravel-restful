@@ -1,0 +1,6 @@
+<div id='messages' ng-controller='MessageCtrl'>
+    <div ng-repeat="msg in messages" ng-class='msg.class' class='alert alert-dismissable' ng-click='close($index);'>
+        <button type="button" class="close" aria-hidden="true">&times;</button>
+        {{ msg.msg }}
+    </div>
+</div>

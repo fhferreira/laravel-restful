@@ -1,0 +1,30 @@
+{
+  "name": "consult-conduit-frontend",
+  "version": "0.0.1",
+  "dependencies": {
+    "jquery": "~2.0.x",
+    "bootstrap": "~3.0.x",
+    "moment": "~2.2.x",
+    "highcharts": "~3.0.7",
+    "underscore": "~1.5.x",
+    "angular": "~1.2.x",
+    "angular-cookies": "~1.2.x",
+    "angular-i18n": "~1.2.x",
+    "angular-touch": "~1.2.x",
+    "angular-scenario": "~1.2.x",
+    "angular-sanitize": "~1.2.x",
+    "angular-route": "~1.2.x",
+    "angular-resource": "~1.2.x",
+    "angular-mocks": "~1.2.x",
+    "angular-loader": "~1.2.x",
+    "angular-animate": "~1.2.x",
+    "angular-bootstrap": "~0.7.x",
+    "requirejs": "~2.1.x"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ]
+}
+
