@@ -17,6 +17,12 @@ Route::get('/', function()
     return View::make('home.base')->nest('content', 'home.index', $data);
 });
 
+Route::get('app', function()
+{
+    $data = array();
+    return View::make('app', $data);
+});
+
 Route::group(array('prefix' => 'api/users'), function () {
     
     // Find users

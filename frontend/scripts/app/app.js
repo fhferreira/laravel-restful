@@ -54,7 +54,7 @@ define([
 
     // defining constants
     app.constant("API_KEY", "1234567890");
-    app.constant("SESSION_COOKIE_NAME", "ssk-session");
+    app.constant("SESSION_COOKIE_NAME", "session");
 
     // $routeProvider configuration
     app.config(['$routeProvider', function ($routeProvider) {
@@ -79,19 +79,25 @@ define([
                 return promise.then(function (response) {
                     // if success HTTP status code 200
                     if (response.headers()['content-type'] === "application/json; charset=utf-8" || response.headers()['content-type'] === "application/json") {
-                        if (response.data.code === 200 || response.data.code === 301) {
+                        if (response.data.code === 200 || response.data.code === 302) {
                             var payloadData = response.data.payload;
                             response.data = payloadData;
                             return response;
                         } else {
-                            if (response.data.code === 401) { // Unauthorized
+                            if (response.data.code === 400) { // Bad Request
                                 $rootScope.$broadcast('error', response.data.message || 'Error. Unauthorized');
-                                //console.log(response.data.message);
+                            } else if (response.data.code === 401) { // Unauthorized
+                                $rootScope.$broadcast('error', response.data.message || 'Error. Unauthorized');
                                 $location.path('/login');
+                            } else if (response.data.code === 403) { // Forbidden
+                                $rootScope.$broadcast('error', response.data.message || 'Error. Unauthorized');
+                                $location.path('/dashboard');
+                            } else if (response.data.code === 404) { // Not Found
+                                $rootScope.$broadcast('error', response.data.message || 'Error. Unauthorized');
+                                $location.path('/dashboard');
+                            } else {
+                                $rootScope.$broadcast('error', response.data.message || 'Error. Server is having a problem');
                             }
-                            // @TODO: 403, redirect to dashboard
-
-                            $rootScope.$broadcast('error', response.data.message || 'Error. Server is having a problem');
                             //console.log('Request error:', response);
                             return $q.reject(response);
                         }

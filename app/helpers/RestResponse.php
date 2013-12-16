@@ -15,6 +15,12 @@
                         $message = "OK";
                     }
                     break;
+                case 'redirect': 
+                    $this->code = 302;
+                    if ($message == "") {
+                        $message = "Redirect";
+                    }
+                    break;
                 case 'badrequest': 
                     $this->code = 400;
                     if ($message == "") {

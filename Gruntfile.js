@@ -1,7 +1,8 @@
 "use strict";
 
 module.exports = function (grunt) {
-    grunt.loadNpmTasks('grunt-contrib');
+    //grunt.loadNpmTasks('grunt-contrib');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
@@ -43,11 +44,6 @@ module.exports = function (grunt) {
             //    files: ["bower_components/**/*"],
             //    tasks: ['copy:bower_components']
             //},
-            public: {
-                // run jshint if theres any changes in the scripts
-                files: ["public/**/*"],
-                tasks: ['copy:public']
-            },
             js: {
                 // run jshint if theres any changes in the scripts
                 files: ["<%=jshint.all%>"],
