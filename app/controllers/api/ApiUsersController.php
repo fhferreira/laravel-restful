@@ -179,7 +179,7 @@ class ApiUsersController extends BaseApiController {
 
         $user->group_id = $request['group_id'];
         //$user->username = $request['username']; // cannot change username
-        if (isset($request['password'])) {
+        if (isset($request['password']) && $request['password'] != "") {
             $user->password = Hash::make($request['password']);
         }
         $user->email = $request['email'];
