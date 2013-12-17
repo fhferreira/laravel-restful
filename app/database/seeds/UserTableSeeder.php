@@ -7,7 +7,7 @@ class UserTableSeeder extends Seeder {
         DB::table('users')->delete();
 
         $admin_group = Group::where('name', 'admin')->first();
-        $member_group = Group::where('name', 'admin')->first();
+        $member_group = Group::where('name', 'member')->first();
  
         $admin_user = User::create(array(
             'group_id' => $admin_group->id,

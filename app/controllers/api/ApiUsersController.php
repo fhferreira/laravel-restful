@@ -45,7 +45,7 @@ class ApiUsersController extends BaseApiController {
     {
         if ($username == 'me') {
             $authToken = App::make('authToken');
-            $user = $authToken->user;
+            $user = User::find($authToken->user_id)->with('meta', 'group')->first();
         } else {
             $user = User::where('username', $username)->with('meta', 'group')->first();
         }
@@ -137,10 +137,9 @@ class ApiUsersController extends BaseApiController {
         
         if ($id == 'me') {
             $authToken = App::make('authToken');
-            $user = $authToken->user;
-        } else {
-            $user = User::with('meta', 'group')->find($id);
-        }
+            $id = $authToken->user_id;
+        } 
+        $user = User::with('meta', 'group')->find($id);
 
         if (!$user) {
             $resp = RestResponseProvider::ok(null, "User not found.");
@@ -197,10 +196,9 @@ class ApiUsersController extends BaseApiController {
     public function uploadProfileImage($id) {
         if ($id == 'me') {
             $authToken = App::make('authToken');
-            $user = $authToken->user;
-        } else {
-            $user = User::with('meta', 'group')->find($id);
-        }
+            $id = $authToken->user_id;
+        } 
+        $user = User::with('meta', 'group')->find($id);
         
         if ($user) {
             if (Input::hasFile('img'))

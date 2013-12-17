@@ -57,7 +57,7 @@ Route::filter('api.auth', function()
         return Response::json(RestResponseProvider::unauthorized());
     }
 
-    $authToken = AuthToken::find($hash);
+    $authToken = AuthToken::with('user')->find($hash);
 	if (!$authToken || $authToken->isExpired()) {
         return Response::json(RestResponseProvider::unauthorized());
     }
@@ -68,7 +68,7 @@ Route::filter('api.auth', function()
 Route::filter('api.admin', function()
 {
     $authToken = App::make('authToken'); 
-	if ($authToken->isExpired() || !$authToken->user->isAdmin()) {
+	if (!$authToken->user->isAdmin()) {
         return Response::json(RestResponseProvider::forbidden());
     }
 });

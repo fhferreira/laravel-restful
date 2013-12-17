@@ -17,7 +17,7 @@ class AuthToken extends Eloquent {
         $user = User::where('username', $username)
             ->first();
 
-        if (Hash::check($password, $user->password)) {
+        if ($user && Hash::check($password, $user->password)) {
             $authToken = new AuthToken();
             $authToken->id = md5(time() + $username + $password);
             $authToken->user_id = $user->id;
