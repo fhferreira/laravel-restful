@@ -12,7 +12,6 @@
         <div class="navbar-collapse collapse" ng-class="!navCollapsed && 'in'">
             <ul ng-show="isAuthenticated" class="nav navbar-nav">
                 <li ng-class="{active: isActive('/dashboard')}"><a href="#/dashboard">Dashboard</a></li>
-                <li><a ng-class="{active: isActive('/sites')}" href="#/sites">Sites</a></li>
                 <li><a ng-show="isAdmin()" ng-class="{active: isActive('/users')}" href="#/users">Users</a></li>
             </ul>
             <ul ng-show="isAuthenticated" class="nav navbar-nav navbar-right">

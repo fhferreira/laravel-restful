@@ -12,7 +12,12 @@ define([], function () {
         
         $scope.isAuthenticated = securityService.isAuthenticated();
         $scope.isAdmin = function () {
-            return false;   
+            if ($scope.isAuthenticated) {
+                if ($scope.user.group.name == 'admin') {
+                    return true;
+                }
+            }
+            return false; 
         };
         if ($scope.isAuthenticated) {
             securityService.requestCurrentUser().then(function (user) {

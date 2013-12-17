@@ -45,7 +45,7 @@ class ApiUsersController extends BaseApiController {
     {
         if ($username == 'me') {
             $authToken = App::make('authToken');
-            $user = User::find($authToken->user_id)->with('meta', 'group')->first();
+            $user = User::with('meta', 'group')->find($authToken->user_id);
         } else {
             $user = User::where('username', $username)->with('meta', 'group')->first();
         }
