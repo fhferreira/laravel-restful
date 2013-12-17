@@ -59,7 +59,7 @@ Route::group(array('prefix' => 'api/users'), function () {
     Route::put('{id}', array(
         'before' => 'api.auth|api.admin',
         'uses' => 'ApiUsersController@update'
-    ))->where(array('id' => '[0-9]+'));
+    ));
     
     // Update me
     Route::put('me', array(
