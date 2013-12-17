@@ -58,7 +58,11 @@ define(['angular', 'resources/user/user'], function (angular, user) {
             destroySession: function () {
                 priv.session = null;
                 priv.currentUser = null;
+                priv.requestSent = false;
+                priv.deferred = new $q.defer();
+
                 $cookieStore.remove(SESSION_COOKIE_NAME);
+                $http.defaults.headers.common['Authorization'] = "";
                 $rootScope.$broadcast('authChange');
             }
             /*isExpired: function () {

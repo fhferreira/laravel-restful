@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddMoreFieldsToUserMeta' => $baseDir . '/app/database/migrations/2013_12_17_014334_add_more_fields_to_user_meta.php',
     'AddNewFieldsToUserMeta' => $baseDir . '/app/database/migrations/2013_12_16_172741_add_new_fields_to_user_meta.php',
     'AddProfileImgPathToAuthTokensTable' => $baseDir . '/app/database/migrations/2013_12_16_024915_add_profile_img_path_to_auth_tokens_table.php',
     'AddUserIdToAuthTokensTable' => $baseDir . '/app/database/migrations/2013_12_15_142633_add_user_id_to_auth_tokens_table.php',
