@@ -11,7 +11,7 @@ class ApiUsersController extends BaseApiController {
     public function find()
     {
         $limit = Input::get('limit') ? (int)Input::get('limit') : Config::get('restful.defaults.pagination.limit');
-        
+ 
         $users = User::with('meta', 'group')->paginate($limit);
 
         if ($users) {
@@ -27,7 +27,12 @@ class ApiUsersController extends BaseApiController {
      **/
     public function getById($id)
     {
-        $user = User::with('meta', 'group')->find($id);
+        $authToken = App::make('authToken');
+        if ($authToken->user->isAdmin()) {
+            $user = User::with('meta', 'group', 'billing')->find($id); // show billing
+        } else {
+            $user = User::with('meta', 'group')->find($id);
+        }
 
         if ($user) {
             $resp = RestResponseProvider::ok($user->toArray());
@@ -43,11 +48,15 @@ class ApiUsersController extends BaseApiController {
      **/
     public function getByUsername($username)
     {
+        $authToken = App::make('authToken');
         if ($username == 'me') {
-            $authToken = App::make('authToken');
-            $user = User::with('meta', 'group')->find($authToken->user_id);
+            $user = User::with('meta', 'group', 'billing')->find($authToken->user_id);
         } else {
-            $user = User::where('username', $username)->with('meta', 'group')->first();
+            if ($authToken->user->isAdmin()) {
+                $user = User::where('username', $username)->with('meta', 'group', 'billing')->first(); // show billing
+            } else {
+                $user = User::where('username', $username)->with('meta', 'group')->first();
+            }
         }
 
         if ($user) {
@@ -111,6 +120,23 @@ class ApiUsersController extends BaseApiController {
         $userMeta->profile_img_url = isset($request['meta']['profile_img_url']) ? $request['meta']['profile_img_url'] : "";
         $userMeta->save();
 
+        $userBilling = new UserBilling();
+        $userBilling->user_id = $user->id;
+        $userBilling->credit_card_name = isset($request['billing']['credit_card_name']) ? $request['billing']['credit_card_name'] : "";
+        $userBilling->credit_card_num = isset($request['billing']['credit_card_num']) ? $request['billing']['credit_card_num'] : "";
+        $userBilling->credit_card_type = isset($request['billing']['credit_card_type']) ? $request['billing']['credit_card_type'] : "";
+        $userBilling->credit_card_expiry_month = isset($request['billing']['credit_card_expiry_month']) ? $request['billing']['credit_card_expiry_month'] : "";
+        $userBilling->credit_card_expiry_year = isset($request['billing']['credit_card_expiry_year']) ? $request['billing']['credit_card_expiry_year'] : "";
+        $userBilling->credit_card_ccv = isset($request['billing']['credit_card_ccv']) ? $request['billing']['credit_card_ccv'] : "";
+        $userBilling->same_as_profile = isset($request['billing']['same_as_profile']) ? $request['billing']['same_as_profile'] : "";
+        $userBilling->address1 = isset($request['billing']['address1']) ? $request['billing']['address1'] : "";
+        $userBilling->address2 = isset($request['billing']['address2']) ? $request['billing']['address2'] : "";
+        $userBilling->country = isset($request['billing']['country']) ? $request['billing']['country'] : "";
+        $userBilling->province = isset($request['billing']['province']) ? $request['billing']['province'] : "";
+        $userBilling->city = isset($request['billing']['city']) ? $request['billing']['city'] : "";
+        $userBilling->postal = isset($request['billing']['postal']) ? $request['billing']['postal'] : "";
+        $userBilling->save();
+
         $resp = RestResponseProvider::ok($user->toArray());
         return Response::json($resp);
     }
@@ -144,7 +170,7 @@ class ApiUsersController extends BaseApiController {
             $authToken = App::make('authToken');
             $id = $authToken->user_id;
         } 
-        $user = User::with('meta', 'group')->find($id);
+        $user = User::with('meta', 'group', 'billing')->find($id);
 
         if (!$user) {
             $resp = RestResponseProvider::ok(null, "User not found.");
@@ -177,6 +203,23 @@ class ApiUsersController extends BaseApiController {
         $userMeta->profile_img_url = isset($request['meta']['profile_img_url']) ? $request['meta']['profile_img_url'] : "";
         $userMeta->save();
 
+        $userBilling = $user->billing;
+        $userBilling->user_id = $user->id;
+        $userBilling->credit_card_name = isset($request['billing']['credit_card_name']) ? $request['billing']['credit_card_name'] : "";
+        $userBilling->credit_card_num = isset($request['billing']['credit_card_num']) ? $request['billing']['credit_card_num'] : "";
+        $userBilling->credit_card_type = isset($request['billing']['credit_card_type']) ? $request['billing']['credit_card_type'] : "";
+        $userBilling->credit_card_expiry_month = isset($request['billing']['credit_card_expiry_month']) ? $request['billing']['credit_card_expiry_month'] : "";
+        $userBilling->credit_card_expiry_year = isset($request['billing']['credit_card_expiry_year']) ? $request['billing']['credit_card_expiry_year'] : "";
+        $userBilling->credit_card_ccv = isset($request['billing']['credit_card_ccv']) ? $request['billing']['credit_card_ccv'] : "";
+        $userBilling->same_as_profile = isset($request['billing']['same_as_profile']) ? $request['billing']['same_as_profile'] : "";
+        $userBilling->address1 = isset($request['billing']['address1']) ? $request['billing']['address1'] : "";
+        $userBilling->address2 = isset($request['billing']['address2']) ? $request['billing']['address2'] : "";
+        $userBilling->country = isset($request['billing']['country']) ? $request['billing']['country'] : "";
+        $userBilling->province = isset($request['billing']['province']) ? $request['billing']['province'] : "";
+        $userBilling->city = isset($request['billing']['city']) ? $request['billing']['city'] : "";
+        $userBilling->postal = isset($request['billing']['postal']) ? $request['billing']['postal'] : "";
+        $userBilling->save();
+
         $resp = RestResponseProvider::ok($user->toArray());
         return Response::json($resp);
     }
@@ -189,10 +232,10 @@ class ApiUsersController extends BaseApiController {
         $requestBody = file_get_contents('php://input');
         $request = json_decode($requestBody);
         
-        $user = User::with('meta', 'group')->find($id);
+        $user = User::find($id);
 
         if ($user) {
-            $user->delete();
+            $user->delete(); 
             $resp = RestResponseProvider::ok(null);
         } else {
             $resp = RestResponseProvider::ok(null, "User not found.");
@@ -208,7 +251,7 @@ class ApiUsersController extends BaseApiController {
             $authToken = App::make('authToken');
             $id = $authToken->user_id;
         } 
-        $user = User::with('meta', 'group')->find($id);
+        $user = User::with('meta')->find($id);
         
         if ($user) {
             if (Input::hasFile('img'))

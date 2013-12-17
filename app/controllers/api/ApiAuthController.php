@@ -83,6 +83,23 @@ class ApiAuthController extends BaseApiController {
         $userMeta->profile_img_url = isset($request['meta']['profile_img_url']) ? $request['meta']['profile_img_url'] : "";
         $userMeta->save();
 
+        $userBilling = new UserBilling();
+        $userBilling->user_id = $user->id;
+        $userBilling->credit_card_name = isset($request['billing']['credit_card_name']) ? $request['billing']['credit_card_name'] : "";
+        $userBilling->credit_card_num = isset($request['billing']['credit_card_num']) ? $request['billing']['credit_card_num'] : "";
+        $userBilling->credit_card_type = isset($request['billing']['credit_card_type']) ? $request['billing']['credit_card_type'] : "";
+        $userBilling->credit_card_expiry_month = isset($request['billing']['credit_card_expiry_month']) ? $request['billing']['credit_card_expiry_month'] : "";
+        $userBilling->credit_card_expiry_year = isset($request['billing']['credit_card_expiry_year']) ? $request['billing']['credit_card_expiry_year'] : "";
+        $userBilling->credit_card_ccv = isset($request['billing']['credit_card_ccv']) ? $request['billing']['credit_card_ccv'] : "";
+        $userBilling->same_as_profile = isset($request['billing']['same_as_profile']) ? $request['billing']['same_as_profile'] : "";
+        $userBilling->address1 = isset($request['billing']['address1']) ? $request['billing']['address1'] : "";
+        $userBilling->address2 = isset($request['billing']['address2']) ? $request['billing']['address2'] : "";
+        $userBilling->country = isset($request['billing']['country']) ? $request['billing']['country'] : "";
+        $userBilling->province = isset($request['billing']['province']) ? $request['billing']['province'] : "";
+        $userBilling->city = isset($request['billing']['city']) ? $request['billing']['city'] : "";
+        $userBilling->postal = isset($request['billing']['postal']) ? $request['billing']['postal'] : "";
+        $userBilling->save();
+
         $resp = RestResponseProvider::ok($user->toArray());
         return Response::json($resp);
     }

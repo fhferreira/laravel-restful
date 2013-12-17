@@ -11,7 +11,7 @@ define([], function () {
                 password: $scope.password
             }).success(function (payload) {
                 securityService.init(payload);
-                $rootScope.$broadcast('success', 'Welcome to Social Seek Admin Panel');
+                $rootScope.$broadcast('success', 'Welcome!');
                 $location.path('/dashboard');
             });
         };

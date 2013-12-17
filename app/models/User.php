@@ -56,6 +56,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         return $this->hasOne('UserMeta');
     }
 
+    public function billing()
+    {
+        return $this->hasOne('UserBilling');
+    }
+
     public function group()
     {
         return $this->belongsTo('Group');

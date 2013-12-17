@@ -34,7 +34,8 @@ define([], function () {
 
         $scope.$watch("user.billing.same_as_profile", function (newVal, oldVal) {
             if (newVal) {
-                $scope.user.billing.address = $scope.user.meta.address;
+                $scope.user.billing.address1 = $scope.user.meta.address1;
+                $scope.user.billing.address2 = $scope.user.meta.address2;
                 $scope.user.billing.city = $scope.user.meta.city;
                 $scope.user.billing.province = $scope.user.meta.province;
                 $scope.user.billing.postal = $scope.user.meta.postal;

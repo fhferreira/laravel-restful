@@ -21,6 +21,9 @@ class UserTableSeeder extends Seeder {
             'first_name' => 'John',
             'last_name' => 'Admin'
         ));
+        UserBilling::create(array(
+            'user_id' => $admin_user->id
+        ));
  
         $member_user = User::create(array(
             'group_id' => $member_group->id,
@@ -33,6 +36,9 @@ class UserTableSeeder extends Seeder {
             'user_id' => $member_user->id,
             'first_name' => 'John',
             'last_name' => 'Member'
+        ));
+        UserBilling::create(array(
+            'user_id' => $member_user->id
         ));
     }
  

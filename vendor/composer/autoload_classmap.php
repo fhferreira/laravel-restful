@@ -38,6 +38,7 @@ return array(
     'ClassPreloader\\Parser\\NodeTraverser' => $vendorDir . '/classpreloader/classpreloader/src/ClassPreloader/Parser/NodeTraverser.php',
     'CreateAuthTokensTable' => $baseDir . '/app/database/migrations/2013_12_15_115247_create_auth_tokens_table.php',
     'CreateSessionsTable' => $baseDir . '/app/database/migrations/2013_12_15_003615_create_sessions_table.php',
+    'CreateUserBillings' => $baseDir . '/app/database/migrations/2013_12_17_015739_create_user_billings.php',
     'CreateUsersTable' => $baseDir . '/app/database/migrations/2013_12_14_231818_create_users_table.php',
     'Crypt_AES' => $vendorDir . '/phpseclib/phpseclib/phpseclib/Crypt/AES.php',
     'Crypt_Base' => $vendorDir . '/phpseclib/phpseclib/phpseclib/Crypt/Base.php',
