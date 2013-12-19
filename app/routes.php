@@ -24,7 +24,7 @@ Route::get('app', function()
 });
 
 Route::group(array(
-    'prefix' => 'api/users'
+    'prefix' => 'api/users',
     'before' => 'api.auth',
     'after' => 'api.auth.extend'
 ), function () {
