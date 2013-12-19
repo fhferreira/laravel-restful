@@ -53,14 +53,17 @@ Route::filter('api.auth', function()
 {
     $headers = getallheaders();
     $hash = isset($headers['Authorization']) ? $headers['Authorization'] : '';
-    if ($hash == "") {
-        return Response::json(RestResponseProvider::unauthorized());
-    }
-
-    $authToken = AuthToken::with('user')->find($hash);
-	if (!$authToken || $authToken->isExpired()) {
-        return Response::json(RestResponseProvider::unauthorized());
-    }
+    if ($hash == "") {                                                                                                 
+        return Response::json(RestResponseProvider::unauthorized("", "Session token is required."));                     
+    }                                                                                                                  
+                                                                                                                       
+    $authToken = AuthToken::with('user')->find($hash);                                                                 
+    if (!$authToken) {                                                                                                 
+        return Response::json(RestResponseProvider::unauthorized("", "Invalid session token."));                         
+    }                                                                                                                  
+    if ($authToken->isExpired()) {                                                                                     
+        return Response::json(RestResponseProvider::unauthorized("", "Session token has expired."));                     
+    }  
 
     App::instance('authToken', $authToken);
 });
@@ -70,6 +73,16 @@ Route::filter('api.admin', function()
     $authToken = App::make('authToken'); 
 	if (!$authToken->user->isAdmin()) {
         return Response::json(RestResponseProvider::forbidden());
+    }
+});
+
+Route::filter('api.auth.extend', function() 
+{           
+    $authToken = App::make('authToken'); 
+    if ($authToken->id) {
+        $authToken->expired_at = date('Y-m-d H:i:s', strtotime('+ 2 hours'));
+        $authToken->updated_at = $authToken->expired_at;
+        $authToken->save();
     }
 });
 

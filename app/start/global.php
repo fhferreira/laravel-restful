@@ -48,6 +48,16 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 |
 */
 
+App::missing(function($exception)
+{
+    $headers = getallheaders();
+    if (isset($headers['Content-Type']) && preg_match("/json/", $headers['Content-Type'])) {
+        return Response::json(RestResponseProvider::notfound());
+    } else {
+        return Response::view('404', array(), 404);
+    }
+});
+
 App::error(function(Exception $exception, $code)
 {
 	Log::error($exception);

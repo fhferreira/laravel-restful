@@ -166,9 +166,15 @@ class ApiUsersController extends BaseApiController {
             return Response::json($resp);
         }
         
+        $authToken = App::make('authToken');
+        $currentUser = $authToken->user;
         if ($id == 'me') {
-            $authToken = App::make('authToken');
-            $id = $authToken->user_id;
+            $id = $currentUser->id;
+        } else {
+            if (!$currentUser->isAdmin()) {
+                $resp = RestResponseProvider::forbidden("", "Can't update other user.");
+                return Response::json($resp);
+            }
         } 
         $user = User::with('meta', 'group', 'billing')->find($id);
 
