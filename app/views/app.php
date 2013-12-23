@@ -11,13 +11,12 @@
 
         <link rel="stylesheet" href="<?= asset('css/style.css') ?>">
     </head>
-    <body>
+    <body ng-cloak>
         <!--[if lt IE 8]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
         <!-- Add your site or application content here -->
-    <body ng-cloak>
         <div ng-controller='AppCtrl'>
             <div ng-include="'<?= asset('js/app/templates/header.html') ?>'"></div>
 

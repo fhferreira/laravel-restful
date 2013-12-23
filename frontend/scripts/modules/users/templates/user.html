@@ -1,7 +1,7 @@
 <div class='row'>
     <ol class="breadcrumb">
-        <li><a href="#/profile">Profile</a></li>
-        <li class='active'>{{ user.meta.first_name + ' ' + user.meta.last_name }}</li>
+        <li><a href="#/users">Users</a></li>
+        <li class='active'>{{ user.id ? user.meta.first_name + ' ' + user.meta.last_name : "New User" }}</li>
     </ol>
 </div>
 

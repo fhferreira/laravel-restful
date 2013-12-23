@@ -35,13 +35,6 @@ define([], function () {
                 $scope.user = null;
             }
         });
-
-        $scope.logout = function () {
-            securityService.destroySession();
-            //$scope.isAuthenticated = securityService.isAuthenticated();
-            //$scope.user = null;
-            $location.path('/login');
-        };
     };
     
     HeaderCtrl.$inject = dependencies;

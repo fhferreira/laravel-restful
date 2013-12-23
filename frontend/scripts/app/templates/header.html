@@ -12,7 +12,7 @@
         <div class="navbar-collapse collapse" ng-class="!navCollapsed && 'in'">
             <ul ng-show="isAuthenticated" class="nav navbar-nav">
                 <li ng-class="{active: isActive('/dashboard')}"><a href="#/dashboard">Dashboard</a></li>
-                <li><a ng-show="isAdmin()" ng-class="{active: isActive('/users')}" href="#/users">Users</a></li>
+                <li ng-class="{active: isActive('/users')}"><a ng-show="isAdmin()" href="#/users">Users</a></li>
             </ul>
             <ul ng-show="isAuthenticated" class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -20,7 +20,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="#/profile">Profile</a></li>
                         <li><a href="#/settings">Settings</a></li>
-                        <li><a ng-click="logout()">Logout</a></li>
+                        <li><a href="#/logout">Logout</a></li>
                     </ul>
                 </li>
             </ul>

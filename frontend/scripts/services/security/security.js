@@ -31,7 +31,7 @@ define(['angular', 'resources/user/user'], function (angular, user) {
                     $http.defaults.headers.common['Authorization'] = priv.session.id;
                 }
 
-                this.requestCurrentUser();
+                //this.requestCurrentUser();
             },
             isAuthenticated: function () {
                 return !!priv.session && !!priv.currentUser;
