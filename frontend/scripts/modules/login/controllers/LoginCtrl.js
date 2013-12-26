@@ -21,7 +21,13 @@ define([], function () {
     };
     
     LoginCtrl.$inject = dependencies;
-    LoginCtrl.resolve = {};
+    LoginCtrl.resolve = {
+        authenticated: function (securityService, $location) {
+            if (securityService.isAuthenticated()) {
+                $location.path('/dashboard');
+            }
+        }
+    };
     return LoginCtrl;
 });
 
