@@ -122,6 +122,8 @@ class Router implements HttpKernelInterface, RouteFiltererInterface {
 		$this->events = $events;
 		$this->routes = new RouteCollection;
 		$this->container = $container ?: new Container;
+
+		$this->bind('_missing', function($v) { return explode('/', $v); });
 	}
 
 	/**
@@ -1405,7 +1407,7 @@ class Router implements HttpKernelInterface, RouteFiltererInterface {
 	 */
 	public function currentRouteName()
 	{
-		return $this->current()->getName();
+		return ($this->current()) ? $this->current()->getName() : null;
 	}
 
 	/**
@@ -1416,7 +1418,7 @@ class Router implements HttpKernelInterface, RouteFiltererInterface {
 	 */
 	public function currentRouteNamed($name)
 	{
-		return $this->current()->getName() == $name;
+		return ($this->current()) ? $this->current()->getName() == $name : false;
 	}
 
 	/**

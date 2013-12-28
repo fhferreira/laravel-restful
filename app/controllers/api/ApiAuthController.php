@@ -103,5 +103,27 @@ class ApiAuthController extends BaseApiController {
         $resp = RestResponseProvider::ok($user->toArray());
         return Response::json($resp);
     }
+
+    public function oauth() {
+        // if its a logged in user and watns to hook up an 3rd party service
+        if ($hash = Input::get('session_id')) {
+            $authToken = AuthToken::with('user')->find($hash);
+            if (!$authToken) { 
+                return Response::json(RestResponseProvider::unauthorized("", "Invalid session token.")); 
+            }
+            if ($authToken->isExpired()) { 
+                return Response::json(RestResponseProvider::unauthorized("", "Session token has expired.")); 
+            }
+            if ($provider = Input::get('provider')) {
+                
+            }
+        } else {
+
+        }
+    }
+
+    public function oauth2() {
+
+    }
 }
 
