@@ -146,6 +146,17 @@ class ApiUsersController extends BaseApiController {
      **/
     public function update($id)
     {
+        $authToken = App::make('authToken');
+        $currentUser = $authToken->user;
+        if ($id == 'me') {
+            $id = $currentUser->id;
+        } else {
+            if (!$currentUser->isAdmin()) {
+                $resp = RestResponseProvider::forbidden("", "Can't update other user.");
+                return Response::json($resp);
+            }
+        }
+
         $requestBody = file_get_contents('php://input');
         $request = json_decode($requestBody, true);
         $validator = Validator::make(
@@ -154,7 +165,7 @@ class ApiUsersController extends BaseApiController {
                 'group_id' => 'required|exists:groups,id',
                 'password' => 'min:5',
                 'email' => 'required|email',
-                'status' => 'required|in:pending,active,inactive,banned'
+                'status' => 'in:pending,active,inactive,banned'
             )
         );
         if ($validator->fails())
@@ -166,16 +177,6 @@ class ApiUsersController extends BaseApiController {
             return Response::json($resp);
         }
         
-        $authToken = App::make('authToken');
-        $currentUser = $authToken->user;
-        if ($id == 'me') {
-            $id = $currentUser->id;
-        } else {
-            if (!$currentUser->isAdmin()) {
-                $resp = RestResponseProvider::forbidden("", "Can't update other user.");
-                return Response::json($resp);
-            }
-        } 
         $user = User::with('meta', 'group', 'billing')->find($id);
 
         if (!$user) {
@@ -189,41 +190,43 @@ class ApiUsersController extends BaseApiController {
             $user->password = Hash::make($request['password']);
         }
         $user->email = $request['email'];
-        $user->status = $request['status'];
+        if ($currentUser->isAdmin()) {
+            $user->status = isset($request['status']) ? $request['status'] : $user->status;
+        }
         $user->save();
 
         $userMeta = $user->meta;
         $userMeta->user_id = $user->id;
-        $userMeta->first_name = isset($request['meta']['first_name']) ? $request['meta']['first_name'] : "";
-        $userMeta->last_name = isset($request['meta']['last_name']) ? $request['meta']['last_name'] : "";
-        $userMeta->address1 = isset($request['meta']['address1']) ? $request['meta']['address1'] : "";
-        $userMeta->address2 = isset($request['meta']['address2']) ? $request['meta']['address2'] : "";
-        $userMeta->country = isset($request['meta']['country']) ? $request['meta']['country'] : "";
-        $userMeta->province = isset($request['meta']['province']) ? $request['meta']['province'] : "";
-        $userMeta->city = isset($request['meta']['city']) ? $request['meta']['city'] : "";
-        $userMeta->postal = isset($request['meta']['postal']) ? $request['meta']['postal'] : "";
-        $userMeta->fax = isset($request['meta']['fax']) ? $request['meta']['fax'] : "";
-        $userMeta->phone = isset($request['meta']['phone']) ? $request['meta']['phone'] : "";
-        $userMeta->company = isset($request['meta']['company']) ? $request['meta']['company'] : "";
-        $userMeta->website_url = isset($request['meta']['website_url']) ? $request['meta']['website_url'] : "";
-        $userMeta->profile_img_url = isset($request['meta']['profile_img_url']) ? $request['meta']['profile_img_url'] : "";
+        $userMeta->first_name = isset($request['meta']['first_name']) ? $request['meta']['first_name'] : $userMeta->first_name;
+        $userMeta->last_name = isset($request['meta']['last_name']) ? $request['meta']['last_name'] : $userMeta->last_name;
+        $userMeta->address1 = isset($request['meta']['address1']) ? $request['meta']['address1'] : $userMeta->address1;
+        $userMeta->address2 = isset($request['meta']['address2']) ? $request['meta']['address2'] : $userMeta->address2;
+        $userMeta->country = isset($request['meta']['country']) ? $request['meta']['country'] : $userMeta->country;
+        $userMeta->province = isset($request['meta']['province']) ? $request['meta']['province'] : $userMeta->province;
+        $userMeta->city = isset($request['meta']['city']) ? $request['meta']['city'] : $userMeta->city;
+        $userMeta->postal = isset($request['meta']['postal']) ? $request['meta']['postal'] : $userMeta->postal;
+        $userMeta->fax = isset($request['meta']['fax']) ? $request['meta']['fax'] : $userMeta->fax;
+        $userMeta->phone = isset($request['meta']['phone']) ? $request['meta']['phone'] : $userMeta->phone;
+        $userMeta->company = isset($request['meta']['company']) ? $request['meta']['company'] : $userMeta->company;
+        $userMeta->website_url = isset($request['meta']['website_url']) ? $request['meta']['website_url'] : $userMeta->website_url;
+        $userMeta->profile_img_url = isset($request['meta']['profile_img_url']) ? $request['meta']['profile_img_url'] : $userMeta->profile_img_url;
         $userMeta->save();
 
         $userBilling = $user->billing;
         $userBilling->user_id = $user->id;
-        $userBilling->credit_card_name = isset($request['billing']['credit_card_name']) ? $request['billing']['credit_card_name'] : "";
-        $userBilling->credit_card_num = isset($request['billing']['credit_card_num']) ? $request['billing']['credit_card_num'] : "";
-        $userBilling->credit_card_type = isset($request['billing']['credit_card_type']) ? $request['billing']['credit_card_type'] : "";
-        $userBilling->credit_card_expiry_month = isset($request['billing']['credit_card_expiry_month']) ? $request['billing']['credit_card_expiry_month'] : "";
-        $userBilling->credit_card_expiry_year = isset($request['billing']['credit_card_expiry_year']) ? $request['billing']['credit_card_expiry_year'] : "";
-        $userBilling->credit_card_ccv = isset($request['billing']['credit_card_ccv']) ? $request['billing']['credit_card_ccv'] : "";
-        $userBilling->same_as_profile = isset($request['billing']['same_as_profile']) ? $request['billing']['same_as_profile'] : "";
-        $userBilling->address1 = isset($request['billing']['address1']) ? $request['billing']['address1'] : "";
-        $userBilling->address2 = isset($request['billing']['address2']) ? $request['billing']['address2'] : "";
-        $userBilling->country = isset($request['billing']['country']) ? $request['billing']['country'] : "";
-        $userBilling->province = isset($request['billing']['province']) ? $request['billing']['province'] : "";
-        $userBilling->city = isset($request['billing']['city']) ? $request['billing']['city'] : "";
-        $userBilling->postal = isset($request['billing']['postal']) ? $request['billing']['postal'] : "";
+        $userBilling->credit_card_name = isset($request['billing']['credit_card_name']) ? $request['billing']['credit_card_name'] : $userBilling->credit_card_name;
+        $userBilling->credit_card_num = isset($request['billing']['credit_card_num']) ? $request['billing']['credit_card_num'] : $userBilling->credit_card_num;
+        $userBilling->credit_card_type = isset($request['billing']['credit_card_type']) ? $request['billing']['credit_card_type'] : $userBilling->credit_card_type;
+        $userBilling->credit_card_expiry_month = isset($request['billing']['credit_card_expiry_month']) ? $request['billing']['credit_card_expiry_month'] : $userBilling->credit_card_expiry_month;
+        $userBilling->credit_card_expiry_year = isset($request['billing']['credit_card_expiry_year']) ? $request['billing']['credit_card_expiry_year'] : $userBilling->credit_card_expiry_yearh;
+        $userBilling->credit_card_ccv = isset($request['billing']['credit_card_ccv']) ? $request['billing']['credit_card_ccv'] : $userBilling->credit_card_ccv;
+        $userBilling->same_as_profile = isset($request['billing']['same_as_profile']) ? $request['billing']['same_as_profile'] : $userBilling->same_as_profile;
+        $userBilling->address1 = isset($request['billing']['address1']) ? $request['billing']['address1'] : $userBilling->address1;
+        $userBilling->address2 = isset($request['billing']['address2']) ? $request['billing']['address2'] : $userBilling->address2;
+        $userBilling->country = isset($request['billing']['country']) ? $request['billing']['country'] : $userBilling->country;
+        $userBilling->province = isset($request['billing']['province']) ? $request['billing']['province'] : $userBilling->province;
+        $userBilling->city = isset($request['billing']['city']) ? $request['billing']['city'] : $userBilling->city;
+        $userBilling->postal = isset($request['billing']['postal']) ? $request['billing']['postal'] : $userBilling->postal;
         $userBilling->save();
 
         $resp = RestResponseProvider::ok($user->toArray());

@@ -5,6 +5,11 @@
         public static function ok($payload = "", $message = "") {
             return new RestResponse('ok', $message, $payload);
         }
+
+        //302
+        public static function redirect($payload = "", $message = "") {
+            return new RestResponse('redirect', $message, $payload);
+        }
         
         //400
         public static function badrequest($payload = "", $message = "") {

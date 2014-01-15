@@ -18,7 +18,8 @@ define([
     'modules/users/users',
     'modules/settings/settings',
     'modules/profile/profile',
-    'services/security/security'
+    'services/security/security',
+    'services/uniqueId/uniqueId'
 ], function (
     angular, 
     angularCookies, 
@@ -38,7 +39,8 @@ define([
     settings,
     profile,
 
-    security
+    security,
+    uniqueId
 ) {
     "use strict";
     
@@ -89,7 +91,7 @@ define([
                             if (response.data.code === 400) { // Bad Request
                                 $rootScope.$broadcast('error', response.data.message || 'Error. Unauthorized');
                             } else if (response.data.code === 401) { // Unauthorized
-                                $rootScope.$broadcast('error', response.data.message || 'Error. Unauthorized');
+                                //$rootScope.$broadcast('error', response.data.message || 'Error. Unauthorized');
                                 $location.path('/logout');
                             } else if (response.data.code === 403) { // Forbidden
                                 $rootScope.$broadcast('error', response.data.message || 'Error. Unauthorized');

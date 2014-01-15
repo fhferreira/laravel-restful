@@ -104,26 +104,50 @@ class ApiAuthController extends BaseApiController {
         return Response::json($resp);
     }
 
-    public function oauth() {
-        // if its a logged in user and watns to hook up an 3rd party service
-        if ($hash = Input::get('session_id')) {
-            $authToken = AuthToken::with('user')->find($hash);
-            if (!$authToken) { 
-                return Response::json(RestResponseProvider::unauthorized("", "Invalid session token.")); 
-            }
-            if ($authToken->isExpired()) { 
-                return Response::json(RestResponseProvider::unauthorized("", "Session token has expired.")); 
-            }
-            if ($provider = Input::get('provider')) {
-                
-            }
-        } else {
+    public function facebookLogin() {
+        // get data from input
+        $code = Input::get( 'code' );
+        $session_id = Input::get( 'session_id' );
 
+        // get fb service
+        $fb = OAuth::consumer( 'Facebook' );
+
+        // check if code is valid
+
+        // if code is provided get user data and sign in
+        if ( !empty( $code ) ) {
+
+            //@TODO: associate the token to the user
+
+            // This was a callback request from google, get the token
+            $token = $fb->requestAccessToken( $code );
+
+            // Send a request with it
+            $result = json_decode( $fb->request( '/me' ), true );
+
+            $message = 'Your unique facebook user id is: ' . $result['id'] . ' and your name is ' . $result['name'];
+            echo $message. "<br/>";
+
+            //Var_dump
+            //display whole array().
+            dd($result);
+
+        }
+        // if not ask for permission first
+        else {
+            // get fb authorization
+            $url = $fb->getAuthorizationUri(); // @TODO: need to add session_id request param here
+
+            // return to facebook login url
+            return Response::json(RestResponseProvider::redirect($url));
         }
     }
 
-    public function oauth2() {
+    // Flow - !registered && !loggedin (no session_id) : fbconnect -> oauth flow -> access token -> get fb uid -> check db for that user (not found) -> create user -> attach access token to user -> log in user
+    // Flow - registered && !loggedin (no session_id) : fbconnect -> oauth flow -> access token -> get fb uid -> check db for that user (found) -> log in user
+    // Flow - registered && loggedin : fbconnect -> check if any token associated (proceed only if no token exists or exists but expired) -> oauth flow -> access token -> attach access token to user
 
-    }
+    // Need to create temp user: /api/users/createTemp
+
 }
 
