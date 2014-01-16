@@ -4,12 +4,11 @@ define([
     'modules/login/controllers/LogoutCtrl',
     'modules/login/controllers/SignupCtrl',
     'services/security/security',
-    'resources/auth/auth',
-    'resources/specialty/specialty'
-], function (angular, LoginCtrl, LogoutCtrl, SignupCtrl, security, auth, specialty) {
+    'resources/auth/auth'
+], function (angular, LoginCtrl, LogoutCtrl, SignupCtrl, security, auth) {
     "use strict";
 
-    var login = angular.module('modules.login', [security.name, auth.name, specialty.name]);
+    var login = angular.module('modules.login', [security.name, auth.name]);
 
     login.config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/login', {

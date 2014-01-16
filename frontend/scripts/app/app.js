@@ -15,9 +15,16 @@ define([
     'modules/login/login',
     'modules/dashboard/dashboard',
     'modules/users/users',
-    'modules/users/users',
     'modules/settings/settings',
     'modules/profile/profile',
+
+    //directives
+    'directives/common/common',
+
+    //filters
+    'filters/common/common',
+
+    // services
     'services/security/security',
     'services/uniqueId/uniqueId'
 ], function (
@@ -35,9 +42,11 @@ define([
     login,
     dashboard,
     users,
-    users,
     settings,
     profile,
+
+    commonDirectives,
+    commonFilters,
 
     security,
     uniqueId
@@ -50,7 +59,7 @@ define([
      */
     
     // defining app module
-    var app = angular.module('app', ['ngCookies', 'ngRoute', 'ngResource', 'ngAnimate', 'ui.bootstrap', login.name, dashboard.name, users.name, users.name, settings.name, profile.name, security.name]);
+    var app = angular.module('app', ['ngCookies', 'ngRoute', 'ngResource', 'ngAnimate', 'ui.bootstrap', login.name, dashboard.name, users.name, users.name, settings.name, profile.name, commonDirectives.name, commonFilters.name, security.name, uniqueId.name]);
 
     app.controller('AppCtrl', AppCtrl);
     app.controller('HeaderCtrl', HeaderCtrl);
@@ -89,15 +98,15 @@ define([
                             return response;
                         } else {
                             if (response.data.code === 400) { // Bad Request
-                                $rootScope.$broadcast('error', response.data.message || 'Error. Unauthorized');
+                                $rootScope.$broadcast('error', response.data.message || 'Error. Bad Request');
                             } else if (response.data.code === 401) { // Unauthorized
                                 //$rootScope.$broadcast('error', response.data.message || 'Error. Unauthorized');
                                 $location.path('/logout');
                             } else if (response.data.code === 403) { // Forbidden
-                                $rootScope.$broadcast('error', response.data.message || 'Error. Unauthorized');
+                                $rootScope.$broadcast('error', response.data.message || 'Error. Forbidden');
                                 $location.path('/dashboard');
                             } else if (response.data.code === 404) { // Not Found
-                                $rootScope.$broadcast('error', response.data.message || 'Error. Unauthorized');
+                                $rootScope.$broadcast('error', response.data.message || 'Error. Not Found');
                                 $location.path('/dashboard');
                             } else {
                                 $rootScope.$broadcast('error', response.data.message || 'Error. Server is having a problem');
