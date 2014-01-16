@@ -49,6 +49,19 @@ App::singleton('authToken', function ($app) {
     return $authToken; 
 });  
 
+Route::filter('api.key', function()
+{
+    $headers = getallheaders();
+    $api_key = isset($headers['X-Api-Key']) ? $headers['X-Api-Key'] : '';
+    if ($api_key == "") {
+        return Response::json(RestResponseProvider::unauthorized("", "Api key is required."));
+    }
+    if (!in_array($api_key, Config::get('restful.api.keys'))) {
+        return Response::json(RestResponseProvider::unauthorized("", "Invalid api key."));
+    }
+    App::instance('authToken', $authToken);
+});
+
 Route::filter('api.auth', function()
 {
     $headers = getallheaders();

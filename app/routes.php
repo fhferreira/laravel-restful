@@ -23,6 +23,12 @@ Route::get('app', function()
     return View::make('app', $data);
 });
 
+Route::post('api/upload', array(
+    'before' => 'api.auth',
+    'uses' => 'ApiUploadController@upload',
+    'after' => 'api.auth.extend'
+));
+
 Route::group(array(
     'prefix' => 'api/users',
     'before' => 'api.auth',

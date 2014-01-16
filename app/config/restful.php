@@ -1,6 +1,11 @@
 <?php
 
 return array(
+    'api' => array(
+        'keys' => array(
+            'hru8ud28emvr394jd'
+        )
+    ),
     'paths' => array(
         'profile_img' => public_path() . "/img/profile"
     ),
