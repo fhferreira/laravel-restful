@@ -52,7 +52,7 @@ App::missing(function($exception)
 {
     $headers = getallheaders();
     if (isset($headers['Content-Type']) && preg_match("/json/", $headers['Content-Type'])) {
-        return Response::json(RestResponseProvider::notfound());
+        return Response::json(RestResponseFactory::notfound());
     } else {
         return Response::view('404', array(), 404);
     }

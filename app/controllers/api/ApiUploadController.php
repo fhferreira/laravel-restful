@@ -19,11 +19,11 @@ class ApiUploadController extends BaseApiController {
             $fn = Input::file('file')->move($destinationPath, $name);
 
             $url = url('uploads/' . $name);
-            $resp = RestResponseProvider::ok(array(
+            $resp = RestResponseFactory::ok(array(
                 'url' => $url
             ));
         } else {
-            $resp = RestResponseProvider::badrequest(null, "No file found");
+            $resp = RestResponseFactory::badrequest(null, "No file found");
         }
         return Response::json($resp);
     }

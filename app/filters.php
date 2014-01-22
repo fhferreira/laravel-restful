@@ -54,10 +54,10 @@ Route::filter('api.key', function()
     $headers = getallheaders();
     $api_key = isset($headers['X-Api-Key']) ? $headers['X-Api-Key'] : '';
     if ($api_key == "") {
-        return Response::json(RestResponseProvider::unauthorized("", "Api key is required."));
+        return Response::json(RestResponseFactory::unauthorized("", "Api key is required."));
     }
     if (!in_array($api_key, Config::get('restful.api.keys'))) {
-        return Response::json(RestResponseProvider::unauthorized("", "Invalid api key."));
+        return Response::json(RestResponseFactory::unauthorized("", "Invalid api key."));
     }
     App::instance('authToken', $authToken);
 });
@@ -67,15 +67,15 @@ Route::filter('api.auth', function()
     $headers = getallheaders();
     $hash = isset($headers['Authorization']) ? $headers['Authorization'] : '';
     if ($hash == "") {                                                                                                 
-        return Response::json(RestResponseProvider::unauthorized("", "Session token is required."));                     
+        return Response::json(RestResponseFactory::unauthorized("", "Session token is required."));                     
     }                                                                                                                  
                                                                                                                        
     $authToken = AuthToken::with('user')->find($hash);                                                                 
     if (!$authToken) {                                                                                                 
-        return Response::json(RestResponseProvider::unauthorized("", "Invalid session token."));                         
+        return Response::json(RestResponseFactory::unauthorized("", "Invalid session token."));                         
     }                                                                                                                  
     if ($authToken->isExpired()) {                                                                                     
-        return Response::json(RestResponseProvider::unauthorized("", "Session token has expired."));                     
+        return Response::json(RestResponseFactory::unauthorized("", "Session token has expired."));                     
     }  
 
     App::instance('authToken', $authToken);
@@ -85,7 +85,7 @@ Route::filter('api.admin', function()
 {
     $authToken = App::make('authToken'); 
 	if (!$authToken->user->isAdmin()) {
-        return Response::json(RestResponseProvider::forbidden());
+        return Response::json(RestResponseFactory::forbidden());
     }
 });
 

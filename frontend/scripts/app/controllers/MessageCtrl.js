@@ -37,8 +37,9 @@ define([], function () {
 
         $scope.close = function (id) {
             if ($scope.messages.hasOwnProperty(id)) {
+                $scope.messages[id] = null;
                 delete $scope.messages[id];
-                $scope.$apply(); // force refresh
+                //$scope.$apply(); // force refresh
             }
         };
     };

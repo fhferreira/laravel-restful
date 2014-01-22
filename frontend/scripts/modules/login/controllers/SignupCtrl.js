@@ -1,8 +1,8 @@
 define([], function () {
     "use strict";
 
-    var dependencies = ['$scope', '$rootScope', '$location', 'userResource', 'authResource', 'securityService'];
-    var SignupCtrl = function ($scope, $rootScope, $location, userResource, authResource, securityService) {
+    var dependencies = ['$scope', '$rootScope', '$location', 'userResource', 'authResource', 'securityService', 'DEFAULT_ROUTE'];
+    var SignupCtrl = function ($scope, $rootScope, $location, userResource, authResource, securityService, DEFAULT_ROUTE) {
         $scope.user = userResource.defaults;
         $scope.specialties = specialties;
         $scope.submit = function () {
@@ -12,7 +12,7 @@ define([], function () {
                 authResource.register($scope.user).success(function (payload) {
                     securityService.init(payload);
                     $rootScope.$broadcast('success', 'Welcome!');
-                    $location.path('/dashboard');
+                    $location.path(DEFAULT_ROUTE);
                 });
             }
         };

@@ -5,6 +5,7 @@ define([
     'angularResource',
     'angularBootstrap',
     'angularAnimate',
+    'angularFileUpload',
 
     // controllers
     'app/controllers/AppCtrl',
@@ -34,6 +35,7 @@ define([
     angularResource,
     angularBootstrap,
     angularAnimate,
+    angularFileUpload,
 
     AppCtrl,
     HeaderCtrl,
@@ -59,7 +61,7 @@ define([
      */
     
     // defining app module
-    var app = angular.module('app', ['ngCookies', 'ngRoute', 'ngResource', 'ngAnimate', 'ui.bootstrap', login.name, dashboard.name, users.name, users.name, settings.name, profile.name, commonDirectives.name, commonFilters.name, security.name, uniqueId.name]);
+    var app = angular.module('app', ['ngCookies', 'ngRoute', 'ngResource', 'ngAnimate', 'ui.bootstrap', angularFileUpload.name, login.name, dashboard.name, users.name, settings.name, profile.name, commonDirectives.name, commonFilters.name, security.name, uniqueId.name]);
 
     app.controller('AppCtrl', AppCtrl);
     app.controller('HeaderCtrl', HeaderCtrl);
@@ -68,6 +70,7 @@ define([
     // defining constants
     app.constant("API_KEY", "1234567890");
     app.constant("SESSION_COOKIE_NAME", "session");
+    app.constant("DEFAULT_ROUTE", "/dashboard");
 
     // $routeProvider configuration
     app.config(['$routeProvider', function ($routeProvider) {
@@ -87,7 +90,7 @@ define([
         /*
          *  Http response interceptor
          */
-        $httpProvider.responseInterceptors.push(function($q, $location, $rootScope) {
+        $httpProvider.responseInterceptors.push(function($q, $location, $rootScope, DEFAULT_ROUTE) {
             return function (promise) {
                 return promise.then(function (response) {
                     // if success HTTP status code 200
@@ -104,10 +107,10 @@ define([
                                 $location.path('/logout');
                             } else if (response.data.code === 403) { // Forbidden
                                 $rootScope.$broadcast('error', response.data.message || 'Error. Forbidden');
-                                $location.path('/dashboard');
+                                $location.path(DEFAULT_ROUTE);
                             } else if (response.data.code === 404) { // Not Found
                                 $rootScope.$broadcast('error', response.data.message || 'Error. Not Found');
-                                $location.path('/dashboard');
+                                $location.path(DEFAULT_ROUTE);
                             } else {
                                 $rootScope.$broadcast('error', response.data.message || 'Error. Server is having a problem');
                             }

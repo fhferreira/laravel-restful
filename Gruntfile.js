@@ -19,7 +19,8 @@ module.exports = function (grunt) {
         jshint: {
             all: [
                 'Gruntfile.js', 
-                'frontend/scripts/**/*.js'
+                'frontend/scripts/**/*.js',
+                '!frontend/scripts/lib/**/*.js'
             ],
             options: {
                 globalstrict: true,

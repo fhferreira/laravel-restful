@@ -13,8 +13,8 @@ class BaseApiController extends BaseController {
      * @param  array     $parameters
      * @return Response
      * */
-    public function missingMethod($method, $parameters = array()) {
-        $resp = RestResponseProvider::notfound("", "Method doesn't exists.");
+    public function missingMethod($parameters = array()) {
+        $resp = RestResponseFactory::notfound("", "Method doesn't exists.");
         return Response::json($resp);
     }
 }

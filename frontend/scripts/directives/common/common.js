@@ -3,6 +3,44 @@ define(['angular', 'jquery', 'moment'], function (angular, $, moment) {
 
     var common = angular.module('directives.common', []);
 
+    common.directive('imgOnLoad', function () {       
+        return {
+            restrict: 'C',
+            link: function(scope, element, attrs) {   
+                element.bind("load" , function(e){ 
+                    element.addClass('loaded');
+                });
+            }
+        };
+    });
+
+    common.directive('stopEvent', function () {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attr) {
+                element.on(attr.stopEvent, function (e) {
+                    e.stopPropagation();
+                });
+            }
+        };
+    });
+
+    common.directive('parseInt', [function () {
+        return {
+            restrict: 'A',
+            require: 'ngModel',
+            link: function (scope, elem, attrs, controller) {
+                controller.$formatters.push(function (modelValue) {
+                    return '' + modelValue;
+                });
+
+                controller.$parsers.push(function (viewValue) {
+                    return parseInt(viewValue,10);
+                });
+            }
+        };
+    }]);
+
     common.directive("include", function ($http, $templateCache, $compile) {
         return {
             restrict: 'A',

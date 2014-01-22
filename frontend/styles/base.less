@@ -33,11 +33,52 @@ body {
 }
 
 #view {
-    .ng-animate-fade-in();
+    //.ng-animate-fade-in();
 }
 
 #messages > div {
     margin: 5px;
     .ng-animate-fade-in();
     .ng-animate-fade-out();
+}
+
+.my-drop-zone { border: dotted 3px lightgray; }
+.ng-file-over { border: dotted 3px red; }
+
+.no-gutter {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.dialog-wide {
+    .modal-dialog {
+        @media screen and (min-width: @screen-sm-min) {
+            width: 90%;
+        }
+    }
+}
+
+.angular-google-map-container { height: 400px; }
+
+.img-on-load {
+    -webkit-transition: 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) all; /* Safari/Chrome */
+    -moz-transition: 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) all; /* Firefox */
+    -o-transition: 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) all; /* Opera */
+    transition: 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) all; /* IE10+ and Future Browsers */
+
+    opacity: 0;
+
+    &.loaded {
+        opacity: 1;
+    }
 }

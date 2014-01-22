@@ -17,9 +17,7 @@ define([
             resolve: LoginCtrl.resolve 
         });
         $routeProvider.when('/logout', {
-            templateUrl: 'js/modules/login/templates/logout.html',
-            controller: LogoutCtrl,
-            resolve: LogoutCtrl.resolve 
+            controller: LogoutCtrl
         });
         $routeProvider.when('/signup', {
             templateUrl: 'js/modules/login/templates/signup.html',

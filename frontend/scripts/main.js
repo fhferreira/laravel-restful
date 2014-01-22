@@ -2,11 +2,14 @@ require.config({
     baseUrl: 'js',
     paths: {
         jquery: 'bower_components/jquery/jquery',
+        es5shim: 'bower_components/es5-shim/es5-shim',
+        es5sham: 'bower_components/es5-shim/es5-sham',
         underscore: 'bower_components/underscore/underscore',
         moment: 'bower_components/moment/moment',
         highcharts: 'bower_components/highcharts/highcharts',
         angular: 'bower_components/angular/angular',
         angularBootstrap: 'bower_components/angular-bootstrap/ui-bootstrap-tpls',
+        angularFileUpload: 'lib/angular-file-upload',
         angularResource: 'bower_components/angular-resource/angular-resource',
         angularCookies: 'bower_components/angular-cookies/angular-cookies',
         angularAnimate: 'bower_components/angular-animate/angular-animate',
@@ -21,6 +24,9 @@ require.config({
         },
         angularBootstrap: {
             deps: ['angular']
+        },
+        angularFileUpload: {
+            deps: ['angular', 'es5shim']
         },
         angularRoute: {
             deps: ['angular']

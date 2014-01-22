@@ -11,9 +11,9 @@ class ApiAuthController extends BaseApiController {
         $request = json_decode($requestBody);
 
         if ($authToken = AuthToken::login($request->username, $request->password)) {
-            $resp = RestResponseProvider::ok($authToken->toArray());
+            $resp = RestResponseFactory::ok($authToken->toArray());
         } else {
-            $resp = RestResponseProvider::badrequest(null, "Invalid Username/Password");
+            $resp = RestResponseFactory::badrequest(null, "Invalid Username/Password");
         }
         return Response::json($resp);
     }
@@ -27,7 +27,7 @@ class ApiAuthController extends BaseApiController {
         $authToken->expired_at = date('Y-m-d H:i:s');
         $authToken->updated_at = $authToken->expired_at;
         $authToken->save();
-        $resp = RestResponseProvider::ok(null);
+        $resp = RestResponseFactory::ok(null);
         return Response::json($resp);
     }
 
@@ -50,7 +50,7 @@ class ApiAuthController extends BaseApiController {
         if ($validator->fails())
         {
             $messages = $validator->messages();
-            $resp = RestResponseProvider::badrequest(array(
+            $resp = RestResponseFactory::badrequest(array(
                 'validation' => $messages->toArray()
             ));
             return Response::json($resp);
@@ -100,7 +100,7 @@ class ApiAuthController extends BaseApiController {
         $userBilling->postal = isset($request['billing']['postal']) ? $request['billing']['postal'] : "";
         $userBilling->save();
 
-        $resp = RestResponseProvider::ok($user->toArray());
+        $resp = RestResponseFactory::ok($user->toArray());
         return Response::json($resp);
     }
 
@@ -139,7 +139,7 @@ class ApiAuthController extends BaseApiController {
             $url = $fb->getAuthorizationUri(); // @TODO: need to add session_id request param here
 
             // return to facebook login url
-            return Response::json(RestResponseProvider::redirect($url));
+            return Response::json(RestResponseFactory::redirect($url));
         }
     }
 

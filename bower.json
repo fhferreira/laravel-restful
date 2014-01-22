@@ -20,6 +20,8 @@
     "angular-loader": "~1.2.x",
     "angular-animate": "~1.2.x",
     "angular-bootstrap": "~0.x.x",
+    "angular-placeholders": "latest",
+    "angular-file-upload": "~0.3.x",
     "requirejs": "~2.1.x"
   },
   "ignore": [

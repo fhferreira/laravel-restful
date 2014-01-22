@@ -5,8 +5,8 @@ define([
     'modules/dashboard/controllers/DashboardCtrl'
 ], function (
     angular, 
-    highCharts,
     security, 
+    highCharts,
     DashboardCtrl
 ) {
     "use strict";

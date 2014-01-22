@@ -15,9 +15,9 @@ class ApiUsersController extends BaseApiController {
         $users = User::with('meta', 'group')->paginate($limit);
 
         if ($users) {
-            $resp = RestResponseProvider::ok($users->toArray());
+            $resp = RestResponseFactory::ok($users->toArray());
         } else {
-            $resp = RestResponseProvider::ok(array(), "User(s) not found.");
+            $resp = RestResponseFactory::ok(array(), "User(s) not found.");
         }
         return Response::json($resp);
     }
@@ -35,9 +35,9 @@ class ApiUsersController extends BaseApiController {
         }
 
         if ($user) {
-            $resp = RestResponseProvider::ok($user->toArray());
+            $resp = RestResponseFactory::ok($user->toArray());
         } else {
-            $resp = RestResponseProvider::ok(null, "User not found.");
+            $resp = RestResponseFactory::ok(null, "User not found.");
         }
         return Response::json($resp);
     }
@@ -60,9 +60,9 @@ class ApiUsersController extends BaseApiController {
         }
 
         if ($user) {
-            $resp = RestResponseProvider::ok($user->toArray());
+            $resp = RestResponseFactory::ok($user->toArray());
         } else {
-            $resp = RestResponseProvider::ok(null, "User not found.");
+            $resp = RestResponseFactory::ok(null, "User not found.");
         }
         return Response::json($resp);
     }
@@ -89,7 +89,7 @@ class ApiUsersController extends BaseApiController {
         if ($validator->fails())
         {
             $messages = $validator->messages();
-            $resp = RestResponseProvider::badrequest(array(
+            $resp = RestResponseFactory::badrequest(array(
                 'validation' => $messages->toArray()
             ));
             return Response::json($resp);
@@ -137,7 +137,7 @@ class ApiUsersController extends BaseApiController {
         $userBilling->postal = isset($request['billing']['postal']) ? $request['billing']['postal'] : "";
         $userBilling->save();
 
-        $resp = RestResponseProvider::ok($user->toArray());
+        $resp = RestResponseFactory::ok($user->toArray());
         return Response::json($resp);
     }
 
@@ -152,7 +152,7 @@ class ApiUsersController extends BaseApiController {
             $id = $currentUser->id;
         } else {
             if (!$currentUser->isAdmin()) {
-                $resp = RestResponseProvider::forbidden("", "Can't update other user.");
+                $resp = RestResponseFactory::forbidden("", "Can't update other user.");
                 return Response::json($resp);
             }
         }
@@ -171,7 +171,7 @@ class ApiUsersController extends BaseApiController {
         if ($validator->fails())
         {
             $messages = $validator->messages();
-            $resp = RestResponseProvider::badrequest(array(
+            $resp = RestResponseFactory::badrequest(array(
                 'validation' => $messages->toArray()
             ));
             return Response::json($resp);
@@ -180,7 +180,7 @@ class ApiUsersController extends BaseApiController {
         $user = User::with('meta', 'group', 'billing')->find($id);
 
         if (!$user) {
-            $resp = RestResponseProvider::ok(null, "User not found.");
+            $resp = RestResponseFactory::ok(null, "User not found.");
             return Response::json($resp);
         } 
 
@@ -229,7 +229,7 @@ class ApiUsersController extends BaseApiController {
         $userBilling->postal = isset($request['billing']['postal']) ? $request['billing']['postal'] : $userBilling->postal;
         $userBilling->save();
 
-        $resp = RestResponseProvider::ok($user->toArray());
+        $resp = RestResponseFactory::ok($user->toArray());
         return Response::json($resp);
     }
 
@@ -245,9 +245,9 @@ class ApiUsersController extends BaseApiController {
 
         if ($user) {
             $user->delete(); 
-            $resp = RestResponseProvider::ok(null);
+            $resp = RestResponseFactory::ok(null);
         } else {
-            $resp = RestResponseProvider::ok(null, "User not found.");
+            $resp = RestResponseFactory::ok(null, "User not found.");
         }
         return Response::json($resp);
     }
@@ -274,9 +274,9 @@ class ApiUsersController extends BaseApiController {
             $userMeta->profile_img_url = Config::get('restful.urls.profile_img') . '/' . $filename;
             $userMeta->save();
 
-            $resp = RestResponseProvider::ok($userMeta->profile_img_url);
+            $resp = RestResponseFactory::ok($userMeta->profile_img_url);
         } else {
-            $resp = RestResponseProvider::ok(null, "User not found.");
+            $resp = RestResponseFactory::ok(null, "User not found.");
         }
         return Response::json($resp);
     }
