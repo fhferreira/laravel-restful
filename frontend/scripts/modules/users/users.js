@@ -19,7 +19,8 @@ define([
         $routeProvider.when('/users', {
             templateUrl: 'js/modules/users/templates/users.html',
             controller: UsersCtrl,
-            resolve: UsersCtrl.resolve
+            resolve: UsersCtrl.resolve,
+            reloadOnSearch: false,
         });
 
         $routeProvider.when('/users/:id', {

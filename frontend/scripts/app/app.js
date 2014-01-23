@@ -101,19 +101,27 @@ define([
                             return response;
                         } else {
                             if (response.data.code === 400) { // Bad Request
-                                $rootScope.$broadcast('error', response.data.message || 'Error. Bad Request');
-                            } else if (response.data.code === 401) { // Unauthorized
+                                $rootScope.$broadcast('error', response.data.message || 'Error. Bad Request.');
+                            } else if (response.data.code === 401) { // Unauthorized 
                                 //$rootScope.$broadcast('error', response.data.message || 'Error. Unauthorized');
-                                $location.path('/logout');
+                                var currentPath = $location.path();
+                                if (currentPath !== '/logout' && $location.path() !== '/login') {
+                                    var ref = $location.$$url;
+                                    $location.path('/logout').search({ref: ref});
+                                }
                             } else if (response.data.code === 403) { // Forbidden
-                                $rootScope.$broadcast('error', response.data.message || 'Error. Forbidden');
-                                $location.path(DEFAULT_ROUTE);
+                                if ($location.path() !== DEFAULT_ROUTE) {
+                                    $rootScope.$broadcast('error', response.data.message || 'Error. Forbidden.');
+                                    $location.path(DEFAULT_ROUTE);
+                                }
                             } else if (response.data.code === 404) { // Not Found
-                                $rootScope.$broadcast('error', response.data.message || 'Error. Not Found');
-                                $location.path(DEFAULT_ROUTE);
+                                if ($location.path() !== DEFAULT_ROUTE) {
+                                    $rootScope.$broadcast('error', response.data.message || 'Error. Not Found.');
+                                    $location.path(DEFAULT_ROUTE);
+                                }
                             } else {
                                 $rootScope.$broadcast('error', response.data.message || 'Error. Server is having a problem');
-                            }
+                            }   
                             //console.log('Request error:', response);
                             return $q.reject(response);
                         }
@@ -134,8 +142,19 @@ define([
         $locationProvider.html5Mode(true);
     }]);*/
 
-    app.run(['securityService', function(securityService) {
+    app.run(['securityService', '$location', 'DEFAULT_ROUTE', function(securityService, $location, DEFAULT_ROUTE) {
         securityService.init();
+        securityService.requestCurrentUser().then(function () {
+            if (securityService.isAuthenticated()) {
+                var query = $location.search();
+                // last url / or default if none
+                if (query.ref) {
+                    $location.search({}).path(query.ref);
+                }
+            } else {
+                $location.path('/login');
+            }
+        });
     }]);
     
     return app;

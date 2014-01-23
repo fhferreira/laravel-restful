@@ -65,7 +65,7 @@ define(['angular'], function (angular) {
                 //"created_at": 
             },
             find: function (params) {
-                return $http.get(priv.baseUrl, params);
+                return $http.get(priv.baseUrl, {params: params});
             },
             create: function (params) {
                 return $http.post(priv.baseUrl, params);
@@ -74,7 +74,7 @@ define(['angular'], function (angular) {
                 return $http.get(priv.baseUrl + "/me");
             },
             get: function (id, params) {
-                return $http.get(priv.baseUrl + "/" + id, params);
+                return $http.get(priv.baseUrl + "/" + id, {params: params});
             },
             updateMe: function (params) {
                 return $http.put(priv.baseUrl + "/me", params);

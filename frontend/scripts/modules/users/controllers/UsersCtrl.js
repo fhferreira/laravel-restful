@@ -1,10 +1,24 @@
 define([], function () {
     "use strict";
     
-    var dependencies = ['$scope', '$location', 'currentUser', 'users'];
-    var UsersCtrl = function ($scope, $location, currentUser, users) {
+    var dependencies = ['$scope', '$location', 'currentUser', 'results', 'userResource'];
+    var UsersCtrl = function ($scope, $location, currentUser, results, userResource) {
         $scope.currentUser = currentUser;
-        $scope.users = users.data;
+        $scope.results = results;
+
+        $scope.goTo = function (page) {
+            $location.search({page: page});
+        };
+
+        $scope.getTotalPages = function () {
+            return $scope.results.last_page;
+        };
+
+        $scope.$on('$routeUpdate', function () {
+            userResource.find($location.search()).success(function (payload) {
+                $scope.results = payload;
+            });
+        });
 
         $scope.edit = function (id) {
             $location.path('/users/' + id);
@@ -16,9 +30,9 @@ define([], function () {
         currentUser: ['securityService', function (securityService) {
             return securityService.requestCurrentUser();
         }],
-        users: ['$q', 'userResource', function ($q, userResource) {
+        results: ['$q', 'userResource', '$location', function ($q, userResource, $location) {
             var deferred = $q.defer();
-            userResource.find({}).success(function (payload) {
+            userResource.find($location.search()).success(function (payload) {
                 deferred.resolve(payload);
             });
 

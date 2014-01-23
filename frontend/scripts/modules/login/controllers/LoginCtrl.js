@@ -14,7 +14,13 @@ define([], function () {
                 }).success(function (payload) {
                     securityService.init(payload);
                     $rootScope.$broadcast('success', 'Welcome!');
-                    $location.path(DEFAULT_ROUTE);
+                    var query = $location.search();
+                    // last url / or default if none
+                    if (query.ref) {
+                        $location.search({}).path(query.ref);
+                    } else {
+                        $location.path(DEFAULT_ROUTE);
+                    }
                 });
             }
         };

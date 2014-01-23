@@ -1,13 +1,26 @@
 <div class='row page-header'>
     <div class='col-sm-12'>
-        <h2>Sites</h2>
+        <h2>
+            Users
+            <div class='pull-right'>
+                <a href='#/users/new' class='btn btn-default'>Create New User</a>
+            </div>
+        </h2>
     </div>
 </div>
 
 <div class='row'>
     <div class='col-sm-12'>
+    </div>
+</div>
+
+<div class='row'>
+    <div class='col-sm-12 m-b'>
         <div class='pull-right'>
-            <a href='#/users/new' class='btn btn-default'>Create New User</a>
+            <pagination on-select-page="goTo(page)" total-items="results.total" page="results.current_page" items-per-page="results.per_page" class="pagination-sm" boundary-links="true" rotate="false"></pagination>
+        </div>
+        <div class='pull-left'>
+            <p class='m-t'>Showing {{ results.from }} to {{ results.to }} of {{ results.total }}</p>
         </div>
     </div>
 </div>
@@ -27,7 +40,7 @@
                 </thead>
 
                 <tbody>
-                    <tr ng-repeat="user in users" ng-click="edit(user.id)">
+                    <tr ng-repeat="user in results.data" ng-click="edit(user.id)">
                         <td>
                             {{ user.username }}
                         </td>
