@@ -1,0 +1,35 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">&times;</button>
+    <h4 class="modal-title">Edit Profile Picture</h4>
+</div>
+<div class="modal-body">
+    <form name='form' class='form-horizontal' ng-submit='save()' novalidate ng-file-drop>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="thumbnail">
+                    <img ph-img="320x320" class='img-on-load' ng-src="{{ user.meta.profile_img_url | getAvatar }}">
+                </div>
+            </div>
+        </div>
+
+        <div class='row'>
+            <div class='col-sm-12'>
+                <input id='file' name='file' type='file' ng-file-select multiple upload-button upload-button-text="Upload Picture" upload-button-class="btn btn-default">
+            </div>
+        </div>
+
+        <div class='row'>
+            <div class='col-sm-12'>
+                <div ng-show="uploader.isHTML5" class='m-t'>
+                    <div class="well my-drop-zone" ng-file-over>
+                        Drop your file here.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type='button' class="btn btn-default" ng-click="cancel()">Cancel</button>
+    <button type='button' class="btn btn-primary" ng-click="save(user)">Save</button>
+</div>

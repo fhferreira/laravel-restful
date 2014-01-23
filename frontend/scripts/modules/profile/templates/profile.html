@@ -6,7 +6,7 @@
 </div>
 
 <div class='row'>
-    <div class='col-sm-3'>
+    <div ng-class="{'col-sm-3': !readOnly, 'col-sm-12': readOnly}" ng-hide="readOnly">
         <ul class="nav nav-pills nav-stacked">
             <li class="active"><a href="#/profile">Profile</a></li>
             <li><a href="#/profile/billing">Billing</a></li>
@@ -14,9 +14,14 @@
         </ul>
     </div>
 
-    <div class='col-sm-9'>
+    <div ng-class="{'col-sm-9': !readOnly, 'col-sm-12': readOnly}">
         <div class='row page-header'>
-            <div class='col-sm-12'>
+            <div class='col-sm-4'>
+                <a class='thumbnail clickable' ng-click="openUploadProfileImageModal()">
+                    <img ph-img="160x160" ng-src="{{ user.meta.profile_img_url | getAvatar }}" class='img-on-load'>
+                </a>
+            </div>
+            <div class='col-sm-8'>
                 <h2>{{ user.meta.first_name + ' ' + user.meta.last_name }}</h2>
             </div>
         </div>
@@ -26,96 +31,102 @@
                 <div class="row form-group" ng-class='{"has-error": form.$dirty && form.username.$invalid}'>
                     <label class="col-sm-2 control-label" for="username">Username</label>
                     <div class="col-sm-10">
-                        <input ng-hide="user.id" type="text" name='username' id='username' class="form-control" ng-model='user.username' placeholder="Letters and numbers only. Min 6 chars." required>
-                        <p ng-show="user.id" class="form-control-static">{{ user.username }}</p>
+                        <input ng-hide="user.id || readOnly" type="text" name='username' id='username' class="form-control" ng-model='user.username' placeholder="Letters and numbers only. Min 6 chars." required>
+                        <p ng-show="user.id || readOnly" class="form-control-static">{{ user.username }}</p>
                     </div>
                 </div>
                 <div class="row form-group" ng-class='{"has-error": form.$dirty && form.email.$invalid}'>
                     <label for="email" class="col-sm-2 control-label">Email</label>
                     <div class="col-sm-10">
-                        <input type="email" name='email' id='email' class="form-control" ng-model='user.email' placeholder="someone@example.com" required>
+                        <input ng-hide="readOnly" type="email" name='email' id='email' class="form-control" ng-model='user.email' placeholder="someone@example.com" required>
+                        <p ng-show="readOnly" class="form-control-static">{{ user.email }}</p>
                     </div>
                 </div>
                 <div class="row form-group" ng-class='{"has-error": form.$dirty && form.first_name.$invalid}'>
                     <label for="first_name" class="col-sm-2 control-label">First Name</label>
                     <div class="col-sm-10">
-                        <input type="text" name='first_name' id='first_name' class="form-control" ng-model='user.meta.first_name' placeholder="" required>
+                        <input ng-hide="readOnly" type="text" name='first_name' id='first_name' class="form-control" ng-model='user.meta.first_name' placeholder="" required>
+                        <p ng-show="readOnly" class="form-control-static">{{ user.meta.first_name }}</p>
                     </div>
                 </div>
                 <div class="row form-group" ng-class='{"has-error": form.$dirty && form.last_name.$invalid}'>
                     <label for="last_name" class="col-sm-2 control-label">Last Name</label>
                     <div class="col-sm-10">
-                        <input type="text" name='last_name' id='last_name' class="form-control" ng-model='user.meta.last_name' placeholder="" required>
+                        <input ng-hide="readOnly" type="text" name='last_name' id='last_name' class="form-control" ng-model='user.meta.last_name' placeholder="" required>
+                        <p ng-show="readOnly" class="form-control-static">{{ user.meta.last_name }}</p>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label for="company" class="col-sm-2 control-label">Company</label>
                     <div class="col-sm-10">
-                        <input type="text" name='company' id='company' class="form-control" ng-model='user.meta.company' placeholder="">
+                        <input ng-hide="readOnly" type="text" name='company' id='company' class="form-control" ng-model='user.meta.company' placeholder="">
+                        <p ng-show="readOnly" class="form-control-static">{{ user.meta.company }}</p>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label for="phone" class="col-sm-2 control-label">Phone</label>
                     <div class="col-sm-10">
-                        <input type="text" name='phone' id='phone' class="form-control" ng-model='user.meta.phone' placeholder="">
+                        <input ng-hide="readOnly" type="text" name='phone' id='phone' class="form-control" ng-model='user.meta.phone' placeholder="">
+                        <p ng-show="readOnly" class="form-control-static">{{ user.meta.phone }}</p>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label for="fax" class="col-sm-2 control-label">Fax</label>
                     <div class="col-sm-10">
-                        <input type="text" name='fax' id='fax' class="form-control" ng-model='user.meta.fax' placeholder="">
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <label for="profile_img_url" class="col-sm-2 control-label">Profile Image URL</label>
-                    <div class="col-sm-10">
-                        <input type="text" name='profile_img_url' id='profile_img_url' class="form-control" ng-model='user.meta.profile_img_url' placeholder="">
+                        <input ng-hide="readOnly" type="text" name='fax' id='fax' class="form-control" ng-model='user.meta.fax' placeholder="">
                     </div>
                 </div>
                 <div class="row form-group">
                     <label for="website_url" class="col-sm-2 control-label">Website URL</label>
                     <div class="col-sm-10">
-                        <input type="text" name='website_url' id='website_url' class="form-control" ng-model='user.meta.website_url' placeholder="http://www.example.com">
+                        <input ng-hide="readOnly" type="text" name='website_url' id='website_url' class="form-control" ng-model='user.meta.website_url' placeholder="http://www.example.com">
+                        <p ng-show="readOnly" class="form-control-static">{{ user.meta.website_url }}</p>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label for="address1" class="col-sm-2 control-label">Address Line 1</label>
                     <div class="col-sm-10">
-                        <input type="text" name='address1' id='address1' class="form-control" ng-model='user.meta.address1' placeholder="">
+                        <input ng-hide="readOnly" type="text" name='address1' id='address1' class="form-control" ng-model='user.meta.address1' placeholder="">
+                        <p ng-show="readOnly" class="form-control-static">{{ user.meta.address1 }}</p>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label for="address2" class="col-sm-2 control-label">Address Line 2</label>
                     <div class="col-sm-10">
-                        <input type="text" name='address2' id='address2' class="form-control" ng-model='user.meta.address2' placeholder="">
+                        <input ng-hide="readOnly" type="text" name='address2' id='address2' class="form-control" ng-model='user.meta.address2' placeholder="">
+                        <p ng-show="readOnly" class="form-control-static">{{ user.meta.address2 }}</p>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label for="city" class="col-sm-2 control-label">City</label>
                     <div class="col-sm-10">
-                        <input type="text" name='city' id='city' class="form-control" ng-model='user.meta.city' placeholder="">
+                        <input ng-hide="readOnly" type="text" name='city' id='city' class="form-control" ng-model='user.meta.city' placeholder="">
+                        <p ng-show="readOnly" class="form-control-static">{{ user.meta.city }}</p>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label for="province" class="col-sm-2 control-label">Province</label>
                     <div class="col-sm-10">
-                        <input type="text" name='province' id='province' class="form-control" ng-model='user.meta.province' placeholder="">
+                        <input ng-hide="readOnly" type="text" name='province' id='province' class="form-control" ng-model='user.meta.province' placeholder="">
+                        <p ng-show="readOnly" class="form-control-static">{{ user.meta.province }}</p>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label for="postal" class="col-sm-2 control-label">Postal</label>
                     <div class="col-sm-10">
-                        <input type="text" name='postal' id='postal' class="form-control" ng-model='user.meta.postal' placeholder="">
+                        <input ng-hide="readOnly" type="text" name='postal' id='postal' class="form-control" ng-model='user.meta.postal' placeholder="">
+                        <p ng-show="readOnly" class="form-control-static">{{ user.meta.postal }}</p>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label for="country" class="col-sm-2 control-label">Country</label>
                     <div class="col-sm-10">
-                        <input type="text" name='country' id='country' class="form-control" ng-model='user.meta.country' placeholder="">
+                        <input ng-hide="readOnly" type="text" name='country' id='country' class="form-control" ng-model='user.meta.country' placeholder="">
+                        <p ng-show="readOnly" class="form-control-static">{{ user.meta.country }}</p>
                     </div>
                 </div>
 
-                <div class="row form-group">
+                <div class="row form-group" ng-hide="readOnly">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="btn btn-primary">Save</button>
                     </div>

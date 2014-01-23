@@ -1,11 +1,13 @@
 define([
     'angular',
+    'angularPlaceholdersImg',
     'services/security/security',
     'resources/user/user',
     'modules/users/controllers/UsersCtrl',
     'modules/users/controllers/UserCtrl'
 ], function (
     angular, 
+    angularPlaceholdersImg,
     security,
     user,
     UsersCtrl,
@@ -13,7 +15,7 @@ define([
 ) {
     "use strict";
 
-    var users = angular.module('modules.users', [security.name, user.name]);
+    var users = angular.module('modules.users', ['placeholders.img', security.name, user.name]);
 
     users.config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/users', {

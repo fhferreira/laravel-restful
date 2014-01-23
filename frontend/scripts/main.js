@@ -9,6 +9,8 @@ require.config({
         highcharts: 'bower_components/highcharts/highcharts',
         angular: 'bower_components/angular/angular',
         angularBootstrap: 'bower_components/angular-bootstrap/ui-bootstrap-tpls',
+        angularPlaceholdersImg: 'bower_components/angular-placeholders/src/img/img',
+        angularPlaceholdersText: 'bower_components/angular-placeholders/src/text/text',
         angularFileUpload: 'lib/angular-file-upload',
         angularResource: 'bower_components/angular-resource/angular-resource',
         angularCookies: 'bower_components/angular-cookies/angular-cookies',
@@ -23,6 +25,12 @@ require.config({
             deps: ['angular']
         },
         angularBootstrap: {
+            deps: ['angular']
+        },
+        angularPlaceholdersText: {
+            deps: ['angular']
+        },
+        angularPlaceholdersImg: {
             deps: ['angular']
         },
         angularFileUpload: {

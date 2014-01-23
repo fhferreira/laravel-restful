@@ -3,6 +3,21 @@ define(['angular'], function (angular) {
 
     var userResource = angular.module('resources.user', []);
 
+    userResource.filter('getFullName', function () {
+        return function (meta)  {
+            if (meta) {
+                return meta.first_name + ' ' + meta.last_name;
+            }
+            return "";
+        };
+    });
+
+    userResource.filter('getAvatar', function () {
+        return function (profile_img_url)  {
+            return profile_img_url;
+        };
+    });
+
     userResource.factory('userResource', ['$http', function ($http) {
         var priv = {
             baseUrl: "/api/users"
