@@ -1,5 +1,5 @@
-Cannmart Admin
-==============
+Laravel Restul with AngularJS
+=============================
 
 # Backend Application #
 
