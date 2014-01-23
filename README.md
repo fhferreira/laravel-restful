@@ -62,26 +62,28 @@ A javascript single page application (SPA).
     $ npm install -g less  
 ``  
 - Install Bower  
-``
-    $ npm install -g bower
+``  
+    $ npm install -g bower  
 ``  
 - Install grunt-cli  
-``
-    $ npm install -g grunt-cli
-    $ npm install -g grunt-init
+``  
+    $ npm install -g grunt-cli  
+``  
+``  
+    $ npm install -g grunt-init  
 ``  
 - Install Node modules dependencies from package.json 
-``
-    $ npm install
 ``  
-- Install components dependencies from components.json 
-``
-    $ bower install
+    $ npm install  
+``  
+- Install components dependencies from components.json  
+``  
+    $ bower install  
 ``  
 
-## Run application ##
-``
-    $ grunt run 
+## Run application ##  
+``  
+    $ grunt run  
 ``  
 
 
